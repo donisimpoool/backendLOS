@@ -5,7 +5,7 @@ import java.net.ConnectException;
 import java.net.URI;
 import java.util.HashMap;
 
-import javax.xml.ws.http.HTTPException;
+//import javax.xml.ws.http.HTTPException;
 
 import org.apache.http.client.HttpResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
