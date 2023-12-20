@@ -1,6 +1,6 @@
 package com.ikkat.los.security.entity;
 
-import com.servlet.shared.ValidationDataMessage;
+import com.ikkat.los.shared.ValidationDataMessage;
 
 import java.util.List;
 

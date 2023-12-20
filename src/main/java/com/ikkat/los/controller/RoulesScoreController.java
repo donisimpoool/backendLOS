@@ -32,7 +32,7 @@ import com.ikkat.los.response.Response;
 import com.ikkat.los.service.CompanyService;
 import com.ikkat.los.service.LineBusinessService;
 import com.ikkat.los.service.RoulesScoreService;
-import com.ikkat.los.service.UserService;
+//import com.ikkat.los.service.UserService;
 import com.ikkat.los.utils.Utils;
 
 
@@ -46,8 +46,8 @@ public class RoulesScoreController {
 	RoulesScoreService service;
 	@Autowired
 	LineBusinessService linebusinessservice;
-	@Autowired
-	UserService userservice;
+//	@Autowired
+//	UserService userservice;
 	@Autowired
 	CompanyService compservice;
 	
@@ -62,7 +62,7 @@ public class RoulesScoreController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlist : "+flagauth);
@@ -89,7 +89,7 @@ public class RoulesScoreController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlist : "+flagauth);
@@ -130,7 +130,7 @@ public class RoulesScoreController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlist : "+flagauth);
@@ -165,7 +165,7 @@ public class RoulesScoreController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlist : "+flagauth);

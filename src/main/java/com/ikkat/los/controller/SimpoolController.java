@@ -58,7 +58,7 @@ import com.ikkat.los.service.ParamaterService;
 import com.ikkat.los.service.ReligionService;
 import com.ikkat.los.service.RoulesScoreService;
 import com.ikkat.los.service.UrlService;
-import com.ikkat.los.service.UserService;
+//import com.ikkat.los.service.UserService;
 import com.ikkat.los.service.applicationService;
 import com.ikkat.los.simpool.service.SimpoolService;
 import com.ikkat.los.utils.CallApiSimpool;
@@ -89,8 +89,8 @@ public class SimpoolController {
 	private ReligionService religionservice;
 	@Autowired
 	private ParamaterService paramservice;
-	@Autowired
-	UserService userservice;
+//	@Autowired
+//	UserService userservice;
 	@Autowired
 	CompanyService compservice;
 	@Autowired
@@ -123,7 +123,7 @@ public class SimpoolController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlistloanproductssimpool : "+flagauth);
@@ -163,7 +163,7 @@ public class SimpoolController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlistloanproductssimpool : "+flagauth);
@@ -261,9 +261,9 @@ public class SimpoolController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
-		
+
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlistloanproductssimpool : "+flagauth);
 		
@@ -331,7 +331,7 @@ public class SimpoolController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlistloanproductssimpool : "+flagauth);
@@ -400,7 +400,7 @@ public class SimpoolController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlistloanproductssimpool : "+flagauth);

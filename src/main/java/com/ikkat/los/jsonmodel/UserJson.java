@@ -1,6 +1,6 @@
 package com.ikkat.los.jsonmodel;
 
-import com.ikkat.los.entity.UserEntity;
+//import com.ikkat.los.entity.UserEntity;
 import com.ikkat.los.enumeration.EnumUserType;
 import com.ikkat.los.utils.Encryptor;
 
@@ -63,15 +63,15 @@ public class UserJson {
 	public void setCreated(String created) {
 		this.created = created;
 	}
-	public UserEntity setvalue() {
-		UserEntity entity = new UserEntity();
-		entity.setUserid(this.userid);
-		entity.setPassword(Encryptor.encrypt(this.password));
-		entity.setName(this.name);
-		entity.setRuleid(this.ruleid);
-		entity.setLevel(new Integer(this.level));
-		entity.setIsapproval(this.isapproval);
-		entity.setUsertype(EnumUserType.USER.value());
-		return entity;
-	}
+//	public UserEntity setvalue() {
+//		UserEntity entity = new UserEntity();
+//		entity.setUserid(this.userid);
+//		entity.setPassword(Encryptor.encrypt(this.password));
+//		entity.setName(this.name);
+//		entity.setRuleid(this.ruleid);
+//		entity.setLevel(new Integer(this.level));
+//		entity.setIsapproval(this.isapproval);
+//		entity.setUsertype(EnumUserType.USER.value());
+//		return entity;
+//	}
 }

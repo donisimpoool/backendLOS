@@ -28,7 +28,7 @@ import com.ikkat.los.service.KodePosService;
 import com.ikkat.los.service.ProvinceService;
 import com.ikkat.los.service.RegenciesService;
 import com.ikkat.los.service.SubDistrictService;
-import com.ikkat.los.service.UserService;
+//import com.ikkat.los.service.UserService;
 import com.ikkat.los.utils.Utils;
 
 
@@ -48,8 +48,8 @@ public class ProvinceController {
 	KodePosService kodeposservice;
 	@Autowired
 	SubDistrictService subdistservice;
-	@Autowired
-	UserService userservice;
+//	@Autowired
+//	UserService userservice;
 	@Autowired
 	CompanyService compservice;
 	
@@ -64,7 +64,7 @@ public class ProvinceController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
@@ -94,7 +94,7 @@ public class ProvinceController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
@@ -122,7 +122,7 @@ public class ProvinceController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("getlistkecamatan : "+flagauth);
@@ -150,7 +150,7 @@ public class ProvinceController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
@@ -195,7 +195,7 @@ public class ProvinceController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);

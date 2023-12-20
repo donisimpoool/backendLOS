@@ -18,7 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 //@EnableConfigurationProperties({ FileStorageProperties.class })
-@EnableSwagger2
+//@EnableSwagger2
 public class LosEngineApps1Application extends SpringBootServletInitializer {
 	
 	
@@ -32,23 +32,23 @@ public class LosEngineApps1Application extends SpringBootServletInitializer {
 		SpringApplication.run(LosEngineApps1Application.class, args);
 	}
 	
-	@Bean
-	   public WebMvcConfigurer corsConfigurer() {
-	      return new WebMvcConfigurer() {
-	         @Override
-	         public void addCorsMappings(CorsRegistry registry) {
-	        	 registry.addMapping("/*").allowedOrigins("/*");
-	         }
-	      };
-	   }
+//	@Bean
+//	   public WebMvcConfigurer corsConfigurer() {
+//	      return new WebMvcConfigurer() {
+//	         @Override
+//	         public void addCorsMappings(CorsRegistry registry) {
+//	        	 registry.addMapping("/*").allowedOrigins("/*");
+//	         }
+//	      };
+//	   }
 	
 	
 
-	@Bean
-	public Docket productApi() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ikkat.los.controller")).build();
-	}
+//	@Bean
+//	public Docket productApi() {
+//		return new Docket(DocumentationType.SWAGGER_2).select()
+//				.apis(RequestHandlerSelectors.basePackage("com.ikkat.los.controller")).build();
+//	}
 	
 //	@Configuration
 //	@Order(Ordered.HIGHEST_PRECEDENCE)

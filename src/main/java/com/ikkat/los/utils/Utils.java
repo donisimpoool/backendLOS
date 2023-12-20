@@ -21,11 +21,11 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import com.ikkat.los.entity.RunningNumberEntity;
-import com.ikkat.los.entity.UserEntity;
+//import com.ikkat.los.entity.UserEntity;
 import com.ikkat.los.enumeration.DateFormatEnum;
 import com.ikkat.los.service.CompanyService;
 import com.ikkat.los.service.RunningNumberService;
-import com.ikkat.los.service.UserService;
+//import com.ikkat.los.service.UserService;
 
 
 public class Utils {
@@ -37,7 +37,7 @@ public class Utils {
 		String auth = "Basic MKqp!ncc2=Ix9Uy=";
 		String platform = (String) param.get("platform");
 		String authparam = (String) param.get("auth");
-		UserService userservice = (UserService) param.get("userservice");
+//		UserService userservice = (UserService) param.get("userservice");
 		CompanyService companyservice = (CompanyService) param.get("companyservice");
 		boolean flag = false;
 		if(auth.equals(authparam)) {

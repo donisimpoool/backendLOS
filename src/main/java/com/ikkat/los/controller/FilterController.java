@@ -40,7 +40,7 @@ import com.ikkat.los.service.FilterDetailService;
 import com.ikkat.los.service.FilterHeaderService;
 import com.ikkat.los.service.FilterService;
 import com.ikkat.los.service.RunningNumberService;
-import com.ikkat.los.service.UserService;
+//import com.ikkat.los.service.UserService;
 import com.ikkat.los.utils.Utils;
 
 
@@ -58,8 +58,8 @@ public class FilterController {
 	FilterDetailService servicedetail;
 	@Autowired
 	RunningNumberService runningnumber;
-	@Autowired
-	UserService userservice;
+//	@Autowired
+//	UserService userservice;
 	@Autowired
 	CompanyService compservice;
 	
@@ -76,7 +76,7 @@ public class FilterController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		boolean flagauth = Utils.CheckAuth(paramauth);
 		LOGGER.info("create : "+flagauth);
@@ -110,7 +110,7 @@ public class FilterController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
@@ -155,7 +155,7 @@ public class FilterController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
@@ -188,7 +188,7 @@ public class FilterController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
@@ -226,7 +226,7 @@ public class FilterController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
@@ -268,7 +268,7 @@ public class FilterController {
 		HashMap<String, Object> paramauth = new HashMap<String, Object>();
 		paramauth.put("auth", Authorization);
 		paramauth.put("platform", platform);
-		paramauth.put("userservice", userservice);
+//		paramauth.put("userservice", userservice);
 		paramauth.put("companyservice", compservice);
 		
 		boolean flagauth = Utils.CheckAuth(paramauth);
