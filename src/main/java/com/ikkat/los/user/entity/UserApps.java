@@ -14,13 +14,12 @@ public class UserApps implements Serializable{
 	private String userid;
 	private String password;
 	private String name;
-	private long ruleid;
+
 	private long level;
 	private String isapproval;
 	private String usertype;
 	private long limitsizefile;
 	private long companyid;
-	private long branchid;
 	private boolean isactive;
 
 	public long getId() {
@@ -53,14 +52,6 @@ public class UserApps implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public long getRuleid() {
-		return ruleid;
-	}
-
-	public void setRuleid(long ruleid) {
-		this.ruleid = ruleid;
 	}
 
 	public long getLevel() {
@@ -101,14 +92,6 @@ public class UserApps implements Serializable{
 
 	public void setCompanyid(long companyid) {
 		this.companyid = companyid;
-	}
-
-	public long getBranchid() {
-		return branchid;
-	}
-
-	public void setBranchid(long branchid) {
-		this.branchid = branchid;
 	}
 
 	public boolean isIsactive() {

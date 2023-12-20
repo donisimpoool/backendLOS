@@ -66,7 +66,7 @@ public class UserAppsHandler implements UserAppsService {
 			if(passwordDB.equals(password)) {
 				tempusername = username;
 				idcompany = user.getCompanyid();
-				idbranch = user.getBranchid();
+//				idbranch = user.getBranchid();
 				SecurityLicenseData license = securityService.checkLicense(user.getCompanyid(), null, null);
 				returndata = new ReturnData();
 				returndata = license.getReturnData();
@@ -81,7 +81,7 @@ public class UserAppsHandler implements UserAppsService {
 					dataauth.setDatelogin(ts);
 					dataauth.setPasswordtoken(encryptedPassToken);
 					dataauth.setIdcompany(user.getCompanyid());
-					dataauth.setIdbranch(user.getBranchid());
+//					dataauth.setIdbranch(user.getBranchid());
 					dataauth.setTypelogin(ConstansKey.TYPE_WEB);
 					
 					String encryptedString = aesEncryptionDecryption.encrypt(new ConvertJson().toJsonString(dataauth));
@@ -185,7 +185,7 @@ public class UserAppsHandler implements UserAppsService {
 	@Override
 	public UserDetailData getDetailUserApps(long id,String idcompany,long idbranch) {
 		// TODO Auto-generated method stub
-		List<UserApps> list = repository.getUserById(id, idcompany, idbranch);
+		List<UserApps> list = repository.getUserById(id, idcompany);
 		if(list != null && list.size() > 0) {
 			List<UserAppsRoleData> listroleuser = new ArrayList<UserAppsRoleData>(userAppsRoleService.getListUserAppsRole(id));
 			UserApps data = list.get(0);
