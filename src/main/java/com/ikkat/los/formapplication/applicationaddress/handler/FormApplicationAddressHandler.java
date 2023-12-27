@@ -84,7 +84,7 @@ public class FormApplicationAddressHandler implements FormApplicationAddressServ
             table.setRw(body.getRw());
             table.setVillagesid(body.getVillagesid());
 
-            repository.saveAndFlush(table);
+            idsave = repository.saveAndFlush(table).getId();
         }catch (Exception e) {
             // TODO: handle exception
             ValidationDataMessage msg = new ValidationDataMessage(ConstansCodeMessage.CODE_MESSAGE_INTERNAL_SERVER_ERROR,"Kesalahan Pada Server");

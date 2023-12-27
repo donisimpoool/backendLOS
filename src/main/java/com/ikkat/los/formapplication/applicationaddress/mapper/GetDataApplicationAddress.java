@@ -12,7 +12,7 @@ public class GetDataApplicationAddress implements RowMapper<ApplicationAddressDa
 
     public GetDataApplicationAddress() {
         // TODO Auto-generated constructor stub
-        final StringBuilder sqlBuilder = new StringBuilder(5);
+        final StringBuilder sqlBuilder = new StringBuilder(10);
         sqlBuilder.append("data.id as id, data.idapplication as idapplication, data.mainaddress as mainaddress, data.provinceid as provinceid, ");
         sqlBuilder.append("data.postalcode as postalcode, data.ownershipstatus as ownershipstatus, data.usedforcollateral as usedforcollateral, data.liveinaddress as liveinaddress, ");
         sqlBuilder.append("data.secondaddress as secondaddress, data.secondprovinceid as secondprovinceid, data.secondpostalcode as secondpostalcode, data.secondownershipstatus as secondownershipstatus,  ");
