@@ -1,6 +1,5 @@
 package com.ikkat.los.formapplication.applicationbank.mapper;
 
-import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAddressData;
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationBankData;
 import org.springframework.jdbc.core.RowMapper;
 

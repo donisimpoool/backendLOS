@@ -1,6 +1,5 @@
 package com.ikkat.los.formapplication.applicationbank.handler;
 
-import com.ikkat.los.formapplication.applicationaddress.mapper.GetDataApplicationAddress;
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationBank;
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationBankData;
 import com.ikkat.los.formapplication.applicationbank.entity.BodyApplicationBank;
