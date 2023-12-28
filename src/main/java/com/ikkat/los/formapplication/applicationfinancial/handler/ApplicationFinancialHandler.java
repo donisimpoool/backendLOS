@@ -1,6 +1,5 @@
 package com.ikkat.los.formapplication.applicationfinancial.handler;
 
-import com.ikkat.los.formapplication.applicationdocument.mapper.GetApplicationDocumentData;
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFinancial;
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFinancialData;
 import com.ikkat.los.formapplication.applicationfinancial.entity.BodyApplicationFinancial;
