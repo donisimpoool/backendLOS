@@ -10,9 +10,12 @@ import com.ikkat.los.formapplication.applicationcollateralvehicle.entity.BodyApp
 import com.ikkat.los.formapplication.applicationfamily.entity.BodyApplicationFamily;
 import com.ikkat.los.formapplication.applicationfinancial.entity.BodyApplicationFinancial;
 import com.ikkat.los.formapplication.applicationloan.entity.BodyApplicationLoan;
+import com.ikkat.los.formapplication.applicationpersonal.entity.BodyApplicationPersonal;
 
 public class BodyAllApplication {
     private BodyApplication application;
+
+    private BodyApplicationPersonal applicationpersonal;
     private BodyApplicationLoan applicationloan;
     private BodyApplicationAddress applicationaddress;
     private BodyApplicationFamily applicationfamily;
@@ -23,6 +26,14 @@ public class BodyAllApplication {
     private BodyApplicationCollateralRealEstate applicationCollateralRealEstate;
     private BodyApplicationCollateralVehicle applicationCollateralVehicle;
     private BodyApplicationCollateralDeposit applicationCollateralDeposit;
+
+    public BodyApplicationPersonal getApplicationpersonal() {
+        return applicationpersonal;
+    }
+
+    public void setApplicationpersonal(BodyApplicationPersonal applicationpersonal) {
+        this.applicationpersonal = applicationpersonal;
+    }
 
     public BodyApplication getApplication() {
         return application;

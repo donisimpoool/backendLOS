@@ -37,4 +37,12 @@ public class RoulesScoresHandler implements RoulesScoresService {
         }
         return null;
     }
+
+    @Override
+    public List<RoulesScoresData> getListAllIsRoulesTemplate(Long idcompany, boolean isroulestemplate) {
+        final StringBuilder sqlBuilder = new StringBuilder("select " + new GetRoulesScoresData().schema());
+        sqlBuilder.append(" where data.idcompany = ? and data.isroulestemplate = "+isroulestemplate+" ");
+        final Object[] queryParameters = new Object[] {idcompany};
+        return this.jdbcTemplate.query(sqlBuilder.toString(), new GetRoulesScoresData(), queryParameters);
+    }
 }

@@ -8,6 +8,7 @@ public class BodyApplicationPersonal {
     private String landlinephone;
     private String placeofbirth;
     private Date dateofbirth;
+    private Long dateofbirthTime;
     private String gender;
     private String typeid;
     private String education;
@@ -17,6 +18,14 @@ public class BodyApplicationPersonal {
     private int numberofdependant;
     private String religionid;
     private String taxnumber;
+
+    public Long getDateofbirthTime() {
+        return dateofbirthTime;
+    }
+
+    public void setDateofbirthTime(Long dateofbirthTime) {
+        this.dateofbirthTime = dateofbirthTime;
+    }
 
     public String getNames() {
         return names;

@@ -2,10 +2,15 @@ package com.ikkat.los.formapplication.application.handler;
 
 import com.ikkat.los.formapplication.application.entity.Application;
 import com.ikkat.los.formapplication.application.entity.ApplicationData;
+import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
 import com.ikkat.los.formapplication.application.entity.BodyApplication;
 import com.ikkat.los.formapplication.application.mapper.GetDataApplication;
 import com.ikkat.los.formapplication.application.repo.FormApplicationRepo;
 import com.ikkat.los.formapplication.application.service.FormApplicationService;
+import com.ikkat.los.roulesscores.entity.RoulesScoresData;
+import com.ikkat.los.roulesscores.service.RoulesScoresService;
+import com.ikkat.los.scoring.entity.ParamsRoulesScoreEntity;
+import com.ikkat.los.scoring.service.ScoringService;
 import com.ikkat.los.shared.ConstansCodeMessage;
 import com.ikkat.los.shared.ReturnData;
 import com.ikkat.los.shared.ValidationDataMessage;
@@ -25,6 +30,11 @@ public class FormApplicationHandler implements FormApplicationService {
 
     @Autowired
     private FormApplicationRepo repository;
+    @Autowired
+    private RoulesScoresService rulesService;
+
+    @Autowired
+    private ScoringService scoringService;
 
     @Override
     public List<ApplicationData> getListAll(Long idcompany) {
@@ -156,5 +166,51 @@ public class FormApplicationHandler implements FormApplicationService {
         sqlBuilder.append(" where data.idcompany = ? and data.isdraft = "+isdraft+" ");
         final Object[] queryParameters = new Object[] {idcompany};
         return this.jdbcTemplate.query(sqlBuilder.toString(), new GetDataApplication(), queryParameters);
+    }
+
+    @Override
+    public ReturnData saveAllApplication(Long idcompany, Long iduser, BodyAllApplication body) {
+        List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
+        long idsave = 0;
+        try{
+            long dateLong = new Date().getTime();
+            java.sql.Date dtSql = new java.sql.Date(dateLong);
+
+            BodyApplication bodyApp = body.getApplication();
+
+            Timestamp ts = new Timestamp(dateLong);
+            Application table = new Application();
+            table.setIdcompany(idcompany);
+            table.setStatus(bodyApp.getStatus());
+            table.setScore(bodyApp.getScore());
+            table.setDateform(dtSql);
+            table.setIsdraft(bodyApp.isIsdraft());
+            table.setIdrisklevel(bodyApp.getIdrisklevel());
+            table.setScorecardcomments(bodyApp.getScorecardcomments());
+            table.setRuleenginecomments(bodyApp.getRuleenginecomments());
+            table.setIsexport(bodyApp.isIsexport());
+            table.setCreatedby(iduser);
+            table.setCreateddate(ts);
+            idsave = repository.saveAndFlush(table).getId();
+
+            //
+            ParamsRoulesScoreEntity parmsroulesScore = scoringService.setValueParameter(idcompany,body);
+
+            List<RoulesScoresData> listroules = rulesService.getListAllIsRoulesTemplate(idcompany,false);
+            if(listroules.size() == 0) {
+                listroules.clear();
+                listroules = rulesService.getListAllIsRoulesTemplate(idcompany,true);
+            }
+
+        }catch (Exception e) {
+            // TODO: handle exception
+            ValidationDataMessage msg = new ValidationDataMessage(ConstansCodeMessage.CODE_MESSAGE_INTERNAL_SERVER_ERROR,"Kesalahan Pada Server");
+            validations.add(msg);
+        }
+        ReturnData data = new ReturnData();
+        data.setId(idsave);
+        data.setSuccess(validations.size() > 0?false:true);
+        data.setValidations(validations);
+        return data;
     }
 }

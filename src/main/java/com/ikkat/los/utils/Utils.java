@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -319,5 +320,19 @@ public class Utils {
 	public static String longDateToString(long strdate,String format) {
 		Date dt = new Date(strdate);
 		return DateToString(dt, format);
+	}
+
+	public static int calculateDateForAge(long dateofbirth) {
+		if(dateofbirth > 0) {
+			Date dt = new Date();
+			Timestamp tsNow = new Timestamp(dt.getTime());
+			long miliseconds = tsNow.getTime() - dateofbirth;
+			Long days = TimeUnit.DAYS.convert(miliseconds, TimeUnit.MILLISECONDS) / 365;
+			if(days > 0) {
+				return days.intValue();
+			}
+		}
+
+		return 0;
 	}
 }
