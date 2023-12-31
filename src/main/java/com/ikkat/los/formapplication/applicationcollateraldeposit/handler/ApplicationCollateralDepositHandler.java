@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ApplicationCollateralDepositHandler implements ApplicationCollatera
             table.setAmount(body.getAmount());
             table.setCurrency(body.getCurrency());
             table.setAccountnumber(body.getAccountnumber());
-            table.setDuedate(body.getDuedate());
+            table.setDuedate(new Date( body.getDuedatetime()));
             idsave = repository.saveAndFlush(table).getId();
         }catch (Exception e) {
             // TODO: handle exception
@@ -88,7 +89,7 @@ public class ApplicationCollateralDepositHandler implements ApplicationCollatera
             table.setAmount(body.getAmount());
             table.setCurrency(body.getCurrency());
             table.setAccountnumber(body.getAccountnumber());
-            table.setDuedate(body.getDuedate());
+            table.setDuedate(new Date( body.getDuedatetime()));
             idsave = repository.saveAndFlush(table).getId();
         }catch (Exception e) {
             // TODO: handle exception

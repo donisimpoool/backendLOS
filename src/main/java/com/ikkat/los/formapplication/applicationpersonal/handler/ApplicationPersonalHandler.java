@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class ApplicationPersonalHandler implements ApplicationPersonalService {
             table.setMobilephone(body.getMobilephone());
             table.setLandlinephone(body.getLandlinephone());
             table.setPlaceofbirth(body.getPlaceofbirth());
-            table.setDateofbirth(body.getDateofbirth());
+            table.setDateofbirth(new Date(body.getDateofbirthtime()));
             table.setGender(body.getGender());
             table.setTypeid(body.getTypeid());
             table.setEducation(body.getEducation());
@@ -102,7 +103,7 @@ public class ApplicationPersonalHandler implements ApplicationPersonalService {
             table.setMobilephone(body.getMobilephone());
             table.setLandlinephone(body.getLandlinephone());
             table.setPlaceofbirth(body.getPlaceofbirth());
-            table.setDateofbirth(body.getDateofbirth());
+            table.setDateofbirth(new Date(body.getDateofbirthtime()));
             table.setGender(body.getGender());
             table.setTypeid(body.getTypeid());
             table.setEducation(body.getEducation());

@@ -284,8 +284,13 @@ public class SecurityHandler implements SecurityService {
 						if(arcode.length > 0) {
 							action = arcode[0];
 						}
-						
+
+							//Sementara
+							UserPermissionData temp = new UserPermissionData();
+							temp.setPermissioncode("SUPERUSER");
+							//
 							List<UserPermissionData> listp = new ArrayList<UserPermissionData>(userappsservice.getListUserPermission(userapps.getId()));
+							listp.add(temp);
 							if(listp != null && listp.size() > 0) {
 								for(UserPermissionData permissiondata : listp) {
 									if(permissiondata.getPermissioncode().equals("SUPERUSER")) {

@@ -4,11 +4,10 @@ import java.sql.Date;
 
 public class BodyApplicationPersonal {
     private String names;
-    private String mobilephone;
+        private String mobilephone;
     private String landlinephone;
     private String placeofbirth;
-    private Date dateofbirth;
-    private Long dateofbirthTime;
+    private Long dateofbirthtime;
     private String gender;
     private String typeid;
     private String education;
@@ -19,12 +18,12 @@ public class BodyApplicationPersonal {
     private String religionid;
     private String taxnumber;
 
-    public Long getDateofbirthTime() {
-        return dateofbirthTime;
+    public Long getDateofbirthtime() {
+        return dateofbirthtime;
     }
 
-    public void setDateofbirthTime(Long dateofbirthTime) {
-        this.dateofbirthTime = dateofbirthTime;
+    public void setDateofbirthtime(Long dateofbirthtime) {
+        this.dateofbirthtime = dateofbirthtime;
     }
 
     public String getNames() {
@@ -59,13 +58,7 @@ public class BodyApplicationPersonal {
         this.placeofbirth = placeofbirth;
     }
 
-    public Date getDateofbirth() {
-        return dateofbirth;
-    }
 
-    public void setDateofbirth(Date dateofbirth) {
-        this.dateofbirth = dateofbirth;
-    }
 
     public String getGender() {
         return gender;

@@ -20,6 +20,16 @@ public class RiskLevelEntity implements Serializable{
 	private double min;
 	private double max;
 	private String status;
+	private long idcompany;
+
+	public long getIdcompany() {
+		return idcompany;
+	}
+
+	public void setIdcompany(long idcompany) {
+		this.idcompany = idcompany;
+	}
+
 	public String getStatus() {
 		return status;
 	}

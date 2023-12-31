@@ -1,14 +1,17 @@
 package com.ikkat.los.scoring.handler;
 
-import com.ikkat.los.entity.roulesscore.RoulesScoreEntity;
 import com.ikkat.los.enumeration.GroupsRoulesEnum;
 import com.ikkat.los.enumeration.TypeRoules;
 import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
 import com.ikkat.los.formapplication.applicationfinancial.entity.BodyApplicationFinancial;
+import com.ikkat.los.formapplication.applicationscore.entity.BodyApplicationScore;
+import com.ikkat.los.risklevel.entity.RiskLevelData;
+import com.ikkat.los.risklevel.service.RiskLevelService;
 import com.ikkat.los.roulesscores.entity.RoulesScoresData;
 import com.ikkat.los.scoring.entity.ParamsRoulesScoreEntity;
 import com.ikkat.los.scoring.service.ScoringService;
 import com.ikkat.los.utils.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,10 +21,12 @@ import java.util.Map;
 
 @Service
 public class ScoringHandler implements ScoringService {
+    @Autowired
+    private RiskLevelService riskLevelService;
     @Override
     public ParamsRoulesScoreEntity setValueParameter(Long idcompany, BodyAllApplication body) {
 
-        int age = Utils.calculateDateForAge(body.getApplicationpersonal().getDateofbirthTime());
+        int age = Utils.calculateDateForAge(body.getApplicationpersonal().getDateofbirthtime());
 
         String OwnershipStatus = "N";
         String CreditCardOwner = "N";
@@ -94,6 +99,7 @@ public class ScoringHandler implements ScoringService {
     @Override
     public HashMap<String, Object> calculateScore(Long idcompany, List<RoulesScoresData> listRoules, BodyAllApplication body) {
         ParamsRoulesScoreEntity paramsValue = setValueParameter(idcompany,body);
+        HashMap<String, Object> nilai = new HashMap<String, Object>();
         HashMap<String, Object> mapRoulesScore = setRoulesScore(listRoules);
         HashMap<String, String> RoulesDistinct = (HashMap<String, String>) mapRoulesScore.get("1");
         HashMap<String, List<RoulesScoresData>> MapRoulesByGroups = (HashMap<String, List<RoulesScoresData>>) mapRoulesScore.get("2");
@@ -259,9 +265,40 @@ public class ScoringHandler implements ScoringService {
                 }
                 hasilscore += temp;
             }
-
         }
-        return null;
+
+        List<RiskLevelData> lisrrisk = riskLevelService.getRiskByRangeScore(idcompany,Double.valueOf(hasilscore).doubleValue());
+        String status = "";
+        if(lisrrisk != null && lisrrisk.size() > 0) {
+            status = lisrrisk.get(0).getStatus();
+        }
+
+        BodyApplicationScore scoreApp = new BodyApplicationScore();
+        scoreApp.setPropertypossession(Double.valueOf(propertypossession).intValue());
+        scoreApp.setNumberofdependant(Double.valueOf(numberofdependant).intValue());
+        scoreApp.setGender(Double.valueOf(gender).intValue());
+        scoreApp.setLocations(Double.valueOf(location).intValue());
+        scoreApp.setLiveownershipstatus(Double.valueOf(liveownershipstatus).intValue());
+        scoreApp.setVehicleowner(Double.valueOf(vehicleowner).intValue());
+        scoreApp.setMaritalstatus(Double.valueOf(maritalstatus).intValue());
+        scoreApp.setCompanysize(Double.valueOf(companysize).intValue());
+        scoreApp.setCreditcardowner(Double.valueOf(creditcardowner).intValue());
+        scoreApp.setDebtincomeratio(Double.valueOf(debtincomeratio).intValue());
+        scoreApp.setIndustrysector(Double.valueOf(industrysector).intValue());
+        scoreApp.setEducation(Double.valueOf(education).intValue());
+        scoreApp.setIncometype(Double.valueOf(incometype).intValue());
+        scoreApp.setAge(Double.valueOf(age).intValue());
+        scoreApp.setDurationwork(Double.valueOf(durationwork).intValue());
+        scoreApp.setJobtittle(Double.valueOf(jobtittle).intValue());
+        scoreApp.setPositions(Double.valueOf(position).intValue());
+
+        nilai.put("hasilscore", hasilscore);
+        nilai.put("status", status);
+        nilai.put("risk", status.equals("")?null:lisrrisk.get(0));
+//        nilai.put("ruleEnginecomments", ruleEnginecomments);
+        nilai.put("detailscore", scoreApp);
+        return nilai;
+
     }
 
     private static double CalculateDebtIncomeRatio(ParamsRoulesScoreEntity paramsValue) {

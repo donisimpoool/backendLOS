@@ -7,7 +7,16 @@ public class BodyApplicationCollateralDeposit {
     private Double amount;
     private String currency;
     private String accountnumber;
-    private Date duedate;
+//    private Date duedate;
+    private Long duedatetime;
+
+    public Long getDuedatetime() {
+        return duedatetime;
+    }
+
+    public void setDuedatetime(Long duedatetime) {
+        this.duedatetime = duedatetime;
+    }
 
     public String getBankid() {
         return bankid;
@@ -41,11 +50,11 @@ public class BodyApplicationCollateralDeposit {
         this.accountnumber = accountnumber;
     }
 
-    public Date getDuedate() {
-        return duedate;
-    }
-
-    public void setDuedate(Date duedate) {
-        this.duedate = duedate;
-    }
+//    public Date getDuedate() {
+//        return duedate;
+//    }
+//
+//    public void setDuedate(Date duedate) {
+//        this.duedate = duedate;
+//    }
 }

@@ -1,5 +1,6 @@
 package com.ikkat.los.formapplication.application.handler;
 
+import com.ikkat.los.enumeration.TypeCollateral;
 import com.ikkat.los.formapplication.application.entity.Application;
 import com.ikkat.los.formapplication.application.entity.ApplicationData;
 import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
@@ -7,6 +8,20 @@ import com.ikkat.los.formapplication.application.entity.BodyApplication;
 import com.ikkat.los.formapplication.application.mapper.GetDataApplication;
 import com.ikkat.los.formapplication.application.repo.FormApplicationRepo;
 import com.ikkat.los.formapplication.application.service.FormApplicationService;
+import com.ikkat.los.formapplication.applicationaddress.service.FormApplicationAddressService;
+import com.ikkat.los.formapplication.applicationbank.service.FormApplicationBankService;
+import com.ikkat.los.formapplication.applicationbusiness.service.FormApplicationBusinessService;
+import com.ikkat.los.formapplication.applicationcollateral.service.ApplicationCollateralService;
+import com.ikkat.los.formapplication.applicationcollateraldeposit.service.ApplicationCollateralDepositService;
+import com.ikkat.los.formapplication.applicationcollateralrealestate.service.ApplicationCollateralRealEstateService;
+import com.ikkat.los.formapplication.applicationcollateralvehicle.service.ApplicationCollateralVehicleService;
+import com.ikkat.los.formapplication.applicationfamily.service.ApplicationFamilyService;
+import com.ikkat.los.formapplication.applicationfinancial.service.ApplicationFinancialService;
+import com.ikkat.los.formapplication.applicationloan.service.ApplicationLoanService;
+import com.ikkat.los.formapplication.applicationpersonal.service.ApplicationPersonalService;
+import com.ikkat.los.formapplication.applicationscore.entity.BodyApplicationScore;
+import com.ikkat.los.formapplication.applicationscore.service.ApplicationScoreService;
+import com.ikkat.los.risklevel.entity.RiskLevelData;
 import com.ikkat.los.roulesscores.entity.RoulesScoresData;
 import com.ikkat.los.roulesscores.service.RoulesScoresService;
 import com.ikkat.los.scoring.entity.ParamsRoulesScoreEntity;
@@ -14,6 +29,7 @@ import com.ikkat.los.scoring.service.ScoringService;
 import com.ikkat.los.shared.ConstansCodeMessage;
 import com.ikkat.los.shared.ReturnData;
 import com.ikkat.los.shared.ValidationDataMessage;
+import com.ikkat.los.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -21,6 +37,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -35,6 +52,31 @@ public class FormApplicationHandler implements FormApplicationService {
 
     @Autowired
     private ScoringService scoringService;
+
+    @Autowired
+    private ApplicationScoreService applicationScoreService;
+    @Autowired
+    private ApplicationLoanService applicationLoanService;
+    @Autowired
+    private ApplicationPersonalService applicationPersonalService;
+    @Autowired
+    private FormApplicationAddressService applicationAddressService;
+    @Autowired
+    private ApplicationFamilyService applicationFamilyService;
+    @Autowired
+    private FormApplicationBusinessService applicationBusinessService;
+    @Autowired
+    private ApplicationFinancialService applicationFinancialService;
+    @Autowired
+    private FormApplicationBankService applicationBankService;
+    @Autowired
+    private ApplicationCollateralService applicationCollateralService;
+    @Autowired
+    private ApplicationCollateralRealEstateService applicationCollateralRealEstateService;
+    @Autowired
+    private ApplicationCollateralVehicleService applicationCollateralVehicleService;
+    @Autowired
+    private ApplicationCollateralDepositService applicationCollateralDepositService;
 
     @Override
     public List<ApplicationData> getListAll(Long idcompany) {
@@ -175,31 +217,56 @@ public class FormApplicationHandler implements FormApplicationService {
         try{
             long dateLong = new Date().getTime();
             java.sql.Date dtSql = new java.sql.Date(dateLong);
-
-            BodyApplication bodyApp = body.getApplication();
-
             Timestamp ts = new Timestamp(dateLong);
-            Application table = new Application();
-            table.setIdcompany(idcompany);
-            table.setStatus(bodyApp.getStatus());
-            table.setScore(bodyApp.getScore());
-            table.setDateform(dtSql);
-            table.setIsdraft(bodyApp.isIsdraft());
-            table.setIdrisklevel(bodyApp.getIdrisklevel());
-            table.setScorecardcomments(bodyApp.getScorecardcomments());
-            table.setRuleenginecomments(bodyApp.getRuleenginecomments());
-            table.setIsexport(bodyApp.isIsexport());
-            table.setCreatedby(iduser);
-            table.setCreateddate(ts);
-            idsave = repository.saveAndFlush(table).getId();
-
-            //
-            ParamsRoulesScoreEntity parmsroulesScore = scoringService.setValueParameter(idcompany,body);
 
             List<RoulesScoresData> listroules = rulesService.getListAllIsRoulesTemplate(idcompany,false);
             if(listroules.size() == 0) {
                 listroules.clear();
                 listroules = rulesService.getListAllIsRoulesTemplate(idcompany,true);
+            }
+            HashMap<String, Object> mapScore = scoringService.calculateScore(idcompany,listroules,body);
+            int score = (int) mapScore.get("hasilscore");
+            RiskLevelData risk = (RiskLevelData) mapScore.get("risk");
+            String status = (String) mapScore.get("status");
+//            String ruleEnginecomments = (String) mapscore.get("ruleEnginecomments");
+            BodyApplicationScore detailscore = (BodyApplicationScore) mapScore.get("detailscore");
+
+            boolean isrealestate = Validation.checkCollateral(TypeCollateral.REALESTATE.value(),
+                    body.getApplicationcollateral().getCollateral());
+            boolean isvehicle = Validation.checkCollateral(TypeCollateral.VEHICLE.value(),
+                    body.getApplicationcollateral().getCollateral());
+            boolean isdeposit = Validation.checkCollateral(TypeCollateral.DEPOSIT.value(),
+                    body.getApplicationcollateral().getCollateral());
+
+            Application table = new Application();
+            table.setIdcompany(idcompany);
+            table.setStatus(status);
+            table.setScore(score);
+            table.setDateform(dtSql);
+            table.setIsdraft(body.isIsdraft());
+            table.setIdrisklevel(risk.getId());
+            table.setScorecardcomments("");
+            table.setRuleenginecomments("");
+            table.setIsexport(false);
+            table.setCreatedby(iduser);
+            table.setCreateddate(ts);
+            idsave = repository.saveAndFlush(table).getId();
+
+            applicationScoreService.save(idcompany,iduser,idsave,detailscore);
+            applicationLoanService.save(idcompany,iduser,idsave, body.getApplicationloan());
+            applicationPersonalService.save(idcompany,iduser,idsave, body.getApplicationpersonal());
+            applicationAddressService.save(idcompany,iduser,idsave, body.getApplicationaddress());
+            applicationFamilyService.save(idcompany,iduser,idsave, body.getApplicationfamily());
+            applicationBusinessService.save(idcompany,iduser,idsave, body.getApplicationbusiness());
+            applicationFinancialService.save(idcompany,iduser,idsave, body.getApplicationfinancial());
+            applicationBankService.save(idcompany,iduser,idsave, body.getApplicationbank());
+            applicationCollateralService.save(idcompany,iduser,idsave, body.getApplicationcollateral());
+            if (isrealestate) {
+                applicationCollateralRealEstateService.save(idcompany,iduser,idsave, body.getApplicationCollateralRealEstate());
+            }else if (isvehicle) {
+                applicationCollateralVehicleService.save(idcompany,iduser,idsave, body.getApplicationCollateralVehicle());
+            }else if (isdeposit) {
+                applicationCollateralDepositService.save(idcompany,iduser,idsave, body.getApplicationCollateralDeposit());
             }
 
         }catch (Exception e) {

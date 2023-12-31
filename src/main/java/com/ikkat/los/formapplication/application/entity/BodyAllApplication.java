@@ -13,8 +13,9 @@ import com.ikkat.los.formapplication.applicationloan.entity.BodyApplicationLoan;
 import com.ikkat.los.formapplication.applicationpersonal.entity.BodyApplicationPersonal;
 
 public class BodyAllApplication {
-    private BodyApplication application;
+//    private BodyApplication application;
 
+    private boolean isdraft;
     private BodyApplicationPersonal applicationpersonal;
     private BodyApplicationLoan applicationloan;
     private BodyApplicationAddress applicationaddress;
@@ -27,6 +28,14 @@ public class BodyAllApplication {
     private BodyApplicationCollateralVehicle applicationCollateralVehicle;
     private BodyApplicationCollateralDeposit applicationCollateralDeposit;
 
+    public boolean isIsdraft() {
+        return isdraft;
+    }
+
+    public void setIsdraft(boolean isdraft) {
+        this.isdraft = isdraft;
+    }
+
     public BodyApplicationPersonal getApplicationpersonal() {
         return applicationpersonal;
     }
@@ -35,13 +44,13 @@ public class BodyAllApplication {
         this.applicationpersonal = applicationpersonal;
     }
 
-    public BodyApplication getApplication() {
-        return application;
-    }
-
-    public void setApplication(BodyApplication application) {
-        this.application = application;
-    }
+//    public BodyApplication getApplication() {
+//        return application;
+//    }
+//
+//    public void setApplication(BodyApplication application) {
+//        this.application = application;
+//    }
 
     public BodyApplicationLoan getApplicationloan() {
         return applicationloan;
