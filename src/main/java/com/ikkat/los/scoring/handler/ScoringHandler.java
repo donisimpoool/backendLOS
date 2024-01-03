@@ -126,16 +126,19 @@ public class ScoringHandler implements ScoringService {
         double jobtittle = 0;
         double position = 0;
         for (Map.Entry roules : RoulesDistinct.entrySet()) {
+            System.out.println("roules.getKey() = "+roules.getKey());
             if (roules.getValue().equals(TypeRoules.RANGE.value())) {
                 List<RoulesScoresData> temproulelist = MapRoulesByGroups.get(roules.getKey());
 
                 temp = scoreRange(temproulelist, paramsValue.getValuenumberage(),String.valueOf(roules.getKey()), GroupsRoulesEnum.AGE.value());
+                System.out.println("paramsValue.getValuenumberage() = "+paramsValue.getValuenumberage()+" | "+temp);
                 if(temp > 0) {
                     age = temp;
                 }
                 hasilscore += temp;
 
                 temp = scoreRange(temproulelist, paramsValue.getValuenumberofdependant(),String.valueOf(roules.getKey()),GroupsRoulesEnum.NUMBEROFDEPENDANT.value());
+                System.out.println("paramsValue.getValuenumberofdependant() = "+paramsValue.getValuenumberofdependant()+" | "+temp);
                 if(temp > 0) {
                     numberofdependant = temp;
                 }
@@ -143,12 +146,14 @@ public class ScoringHandler implements ScoringService {
 
 
                 temp = scoreRange(temproulelist, paramsValue.getValuecompanysize(),String.valueOf(roules.getKey()),GroupsRoulesEnum.COMPANYSIZE.value());
+                System.out.println("paramsValue.getValuecompanysize() = "+paramsValue.getValuecompanysize()+" | "+temp);
                 if(temp > 0) {
                     companysize = temp;
                 }
                 hasilscore += temp;
 
                 temp = scoreRange(temproulelist, paramsValue.getValuedurationwork(),String.valueOf(roules.getKey()),GroupsRoulesEnum.DURATIONWORK.value());
+                System.out.println("paramsValue.getValuedurationwork() = "+paramsValue.getValuedurationwork()+" | "+temp);
                 if(temp > 0) {
                     durationwork = temp;
                 }
@@ -327,8 +332,11 @@ public class ScoringHandler implements ScoringService {
 
     private static double scoreRange(List<RoulesScoresData> temproulelist, double input,String groupsrules,String groupsinput) {
         double score = 0;
+        System.out.println("groupsrules "+groupsrules+" = "+groupsinput);
         if(groupsrules.equals(groupsinput)) {
             for (RoulesScoresData roules : temproulelist) {
+                System.out.println("scoreRange A ="+input+" >= "+roules.getMinvalue());
+                System.out.println("scoreRange B= "+input+" < "+roules.getMaxvalue());
                 if (input >= roules.getMinvalue() && input < roules.getMaxvalue()) {
                     score = roules.getScore();
                     break;
@@ -348,6 +356,7 @@ public class ScoringHandler implements ScoringService {
 
         if(listroules.size() > 0) {
             for(RoulesScoresData roules : listroules) {
+                System.out.println("roules.getGroups() = "+roules.getGroups());
                 List<RoulesScoresData> tempList = new ArrayList<RoulesScoresData>();
                 if(RoulesDistinct.get(roules.getGroups()) == null) {
                     RoulesDistinct.put(roules.getGroups(), roules.getTyperoules());

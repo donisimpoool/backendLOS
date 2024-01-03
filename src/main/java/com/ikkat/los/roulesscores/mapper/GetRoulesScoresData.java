@@ -45,6 +45,7 @@ public class GetRoulesScoresData implements RowMapper<RoulesScoresData> {
         data.setValue(value);
         data.setValuenumber(valuenumber);
         data.setScore(score);
+        data.setGroups(groups);
         data.setTyperoules(typeroules);
         data.setIsroulestemplate(isroulestemplate);
         data.setNameroules(nameroules);

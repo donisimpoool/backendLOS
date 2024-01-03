@@ -220,12 +220,16 @@ public class FormApplicationHandler implements FormApplicationService {
             Timestamp ts = new Timestamp(dateLong);
 
             List<RoulesScoresData> listroules = rulesService.getListAllIsRoulesTemplate(idcompany,false);
+
             if(listroules.size() == 0) {
                 listroules.clear();
                 listroules = rulesService.getListAllIsRoulesTemplate(idcompany,true);
             }
+            System.out.println("BodyAllApplication = "+body.toString());
+            System.out.println("listroules = "+listroules.toString()+" | "+listroules.size());
             HashMap<String, Object> mapScore = scoringService.calculateScore(idcompany,listroules,body);
             int score = (int) mapScore.get("hasilscore");
+            System.out.println("score = "+score);
             RiskLevelData risk = (RiskLevelData) mapScore.get("risk");
             String status = (String) mapScore.get("status");
 //            String ruleEnginecomments = (String) mapscore.get("ruleEnginecomments");
