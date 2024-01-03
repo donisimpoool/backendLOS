@@ -1,11 +1,9 @@
 package com.ikkat.los.formapplication.application.handler;
 
 import com.ikkat.los.enumeration.TypeCollateral;
-import com.ikkat.los.formapplication.application.entity.Application;
-import com.ikkat.los.formapplication.application.entity.ApplicationData;
-import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
-import com.ikkat.los.formapplication.application.entity.BodyApplication;
+import com.ikkat.los.formapplication.application.entity.*;
 import com.ikkat.los.formapplication.application.mapper.GetDataApplication;
+import com.ikkat.los.formapplication.application.mapper.GetListApplicationData;
 import com.ikkat.los.formapplication.application.repo.FormApplicationRepo;
 import com.ikkat.los.formapplication.application.service.FormApplicationService;
 import com.ikkat.los.formapplication.applicationaddress.service.FormApplicationAddressService;
@@ -77,6 +75,14 @@ public class FormApplicationHandler implements FormApplicationService {
     private ApplicationCollateralVehicleService applicationCollateralVehicleService;
     @Autowired
     private ApplicationCollateralDepositService applicationCollateralDepositService;
+
+    @Override
+    public List<ApplicationListData> getApplicarionListByDraft(Long idcompany, boolean isDraft) {
+        final StringBuilder sqlBuilder = new StringBuilder("select " + new GetListApplicationData().schema());
+        sqlBuilder.append(" where data.idcompany = ? and isdraft = "+isDraft+" ");
+        final Object[] queryParameters = new Object[] {idcompany};
+        return this.jdbcTemplate.query(sqlBuilder.toString(), new GetListApplicationData(), queryParameters);
+    }
 
     @Override
     public List<ApplicationData> getListAll(Long idcompany) {

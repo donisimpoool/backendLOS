@@ -2,6 +2,7 @@ package com.ikkat.los.formapplication.application.service;
 
 import com.ikkat.los.entity.applicationEntity;
 import com.ikkat.los.formapplication.application.entity.ApplicationData;
+import com.ikkat.los.formapplication.application.entity.ApplicationListData;
 import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
 import com.ikkat.los.formapplication.application.entity.BodyApplication;
 import com.ikkat.los.shared.ReturnData;
@@ -9,6 +10,8 @@ import com.ikkat.los.shared.ReturnData;
 import java.util.List;
 
 public interface FormApplicationService {
+
+    List<ApplicationListData> getApplicarionListByDraft(Long idcompany,boolean isDraft);
     List<ApplicationData> getListAll(Long idcompany);
     ApplicationData getId(Long id,Long idcompany);
     ReturnData save(Long idcompany, Long iduser, BodyApplication body);

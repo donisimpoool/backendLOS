@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service
 public class ProcessHandler implements ProcessService{
@@ -46,6 +47,24 @@ public class ProcessHandler implements ProcessService{
 
     @Override
     public ProcessReturn ProcessingReadFunction(String codepermission, Object data, String authorization) {
-        return null;
+        ProcessReturn val = new ProcessReturn();
+        val.setHttpcode(HttpStatus.OK.value());
+        val.setSuccess(true);
+        val.setValidations(new ArrayList<ValidationDataMessage>());
+
+        Gson gson = new Gson();
+        AESEncryptionDecryption aesEncryptionDecryption = new AESEncryptionDecryption();
+        String decryption = aesEncryptionDecryption.decrypt(authorization);
+        AuthorizationData auth = gson.fromJson(decryption, AuthorizationData.class);
+        if(auth.getTypelogin().equals(ConstansKey.TYPE_WEB)) {
+            if(codepermission.equals(ConstansPermission.READ_APPLICATION)) {
+                HashMap<String, Object> param = (HashMap<String, Object>) data;
+                String type = (String) param.get("type");
+                if(type.equals("ALL")) {
+                    val.setData(applicationService.getApplicarionListByDraft(auth.getIdcompany(), true));
+                }
+            }
+        }
+        return val;
     }
 }

@@ -12,12 +12,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 @RequestMapping("/v1/application")
 @CrossOrigin(origins = "${value.cross_origin}")
 public class ApplicationAPI {
     @Autowired
     SecurityService securityService;
+
+    @GetMapping
+    ResponseEntity<Response> getList(@RequestHeader(ConstansKey.AUTH) String authorization) {
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("type", "ALL");
+        Response response = securityService.response(ConstansPermission.READ_APPLICATION,param,authorization);
+        return ResponseEntity.status(response.getHttpcode()).contentType(MediaType.APPLICATION_JSON).body(response);
+    }
 
     @PostMapping
     ResponseEntity<Response> createObject(@RequestBody @Validated BodyAllApplication body, @RequestHeader(ConstansKey.AUTH) String authorization) {
