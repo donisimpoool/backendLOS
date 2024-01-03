@@ -1,7 +1,6 @@
 package com.ikkat.los.formapplication.application.api;
 
 import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
-import com.ikkat.los.formapplication.application.entity.Tets;
 import com.ikkat.los.security.service.SecurityService;
 import com.ikkat.los.shared.ConstansKey;
 import com.ikkat.los.shared.ConstansPermission;
