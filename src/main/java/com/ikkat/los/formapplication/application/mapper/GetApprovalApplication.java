@@ -7,6 +7,8 @@ import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppova
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalBank;
 import com.ikkat.los.formapplication.applicationbank.entity.BankData;
 import com.ikkat.los.formapplication.applicationbusiness.entity.ApplicationBusinessApproval;
+import com.ikkat.los.formapplication.applicationcollateral.entity.ApplicationCollateralApproval;
+import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.ApplicationCollateralRealEstateApprovalData;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.subdistrict.entity.SubdistrictData;
@@ -58,6 +60,19 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("business_dis.iddistrict as businessdis_iddistrict, business_dis.idregencies as businessdis_idregencies , business_dis.namedistrict as businessdis_namedistrict, business_dis.kodepos as businessdis_kodepos, ");
         //
 
+        //formapplication_collateral
+        sqlBuilder.append("collateral.collateral as collateral_collateral,  ");
+        //
+
+        //formapplication_collateral_real_estate
+        sqlBuilder.append("collateral_re.typerealestate as collateral_re_typerealestate, collateral_re.conditions as collateral_re_conditions, collateral_re.years as collateral_re_years, ");
+        sqlBuilder.append("collateral_re.rooms as collateral_re_rooms, collateral_re.address as collateral_re_address, collateral_re.provinceid as collateral_re_provinceid, ");
+        sqlBuilder.append("collateral_re.regenciesid as collateral_re_regenciesid, collateral_re.districtid as collateral_re_districtid, collateral_re.sizes as collateral_re_sizes, collateral_re.proofofownership as collateral_re_proofofownership, ");
+        sqlBuilder.append("collateral_re_prov.location_code as collateral_re_prov_location_code, collateral_re_prov.location_name as collateral_re_prov_location_name, collateral_re_prov.id_simpool as collateral_re_prov_id_simpool, ");
+        sqlBuilder.append("collateral_re_reg.idregencies as collateral_re_reg_idregencies, collateral_re_reg.idprovince as collateral_re_reg_idprovince, collateral_re_reg.nameregencies as collateral_re_reg_nameregencies, collateral_re_reg.id_simpool as collateral_re_reg_id_simpool, ");
+        sqlBuilder.append("collateral_re_dis.iddistrict as collateral_re_dis_iddistrict, collateral_re_dis.idregencies as collateral_re_dis_idregencies , collateral_re_dis.namedistrict as collateral_re_dis_namedistrict, collateral_re_dis.kodepos as collateral_re_dis_kodepos, ");
+        //
+
         sqlBuilder.append("from formapplication as data ");
         sqlBuilder.append("left join formapplication_personal as personal on personal.idapplication = data.id ");
         sqlBuilder.append("left join formapplication_loan as loan on loan.idapplication = data.id ");
@@ -84,6 +99,18 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("left join m_province as business_prov on business_prov.location_code = business.provinceid ");
         sqlBuilder.append("left join m_regencies as business_reg on business_reg.idregencies = business.idregencies ");
         sqlBuilder.append("left join m_district as business_dis on business_dis.iddistrict = business.iddistrict ");
+        //
+
+        //formapplication_collateral
+        sqlBuilder.append("left join formapplication_collateral as collateral on collateral.idapplication = data.id ");
+        //
+
+        //formapplication_collateral_real_estate
+        sqlBuilder.append("left join formapplication_collateral_real_estate as collateral_re on collateral_re.idapplication = data.id ");
+        sqlBuilder.append("left join m_province as collateral_re_prov on collateral_re_prov.location_code = collateral_re.provinceid ");
+        sqlBuilder.append("left join m_regencies as collateral_re_reg on collateral_re_reg.idregencies = collateral_re.regenciesid ");
+        sqlBuilder.append("left join m_district as collateral_re_dis on collateral_re_dis.iddistrict = collateral_re.districtid ");
+        //
 
         this.schemaSql = sqlBuilder.toString();
     }
@@ -233,7 +260,6 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         provincebusiness.setLocationName(businessprov_location_name);
         provincebusiness.setId_simpool(businessprov_id_simpool);
 
-
         RegenciesData regenciesbusiness = new RegenciesData();
         regenciesbusiness.setIdprovince(businessreg_idprovince);
         regenciesbusiness.setIdregencies(businessreg_idregencies);
@@ -321,6 +347,71 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         appaddressentity.setSecondusedforcollateral(address_secondusedforcollateral);
         //
 
+        //formapplication_collateral
+        final String collateral_collateral = rs.getString("collateral_collateral");
+
+        ApplicationCollateralApproval appCollateral = new ApplicationCollateralApproval();
+        appCollateral.setApplicationid(id.toString());
+        appCollateral.setCollateral(collateral_collateral);
+        //
+
+        //formapplication_collateral_real_estate
+        final String collateral_re_typerealestate = rs.getString("collateral_re_typerealestate");
+        final String collateral_re_conditions = rs.getString("collateral_re_conditions");
+        final int collateral_re_years = rs.getInt("collateral_re_years");
+        final int collateral_re_rooms = rs.getInt("collateral_re_rooms");
+        final String collateral_re_address = rs.getString("collateral_re_address");
+        final String collateral_re_provinceid = rs.getString("collateral_re_provinceid");
+        final String collateral_re_regenciesid = rs.getString("collateral_re_regenciesid");
+        final String collateral_re_districtid = rs.getString("collateral_re_districtid");
+        final String collateral_re_sizes = rs.getString("collateral_re_sizes");
+        final String collateral_re_proofofownership = rs.getString("collateral_re_proofofownership");
+        final String collateral_re_prov_location_code = rs.getString("collateral_re_prov_location_code");
+        final String collateral_re_prov_location_name = rs.getString("collateral_re_prov_location_name");
+        final String collateral_re_prov_id_simpool = rs.getString("collateral_re_prov_id_simpool");
+        final String collateral_re_reg_idregencies = rs.getString("collateral_re_reg_idregencies");
+        final String collateral_re_reg_idprovince = rs.getString("collateral_re_reg_idprovince");
+        final String collateral_re_reg_nameregencies = rs.getString("collateral_re_reg_nameregencies");
+        final String collateral_re_reg_id_simpool = rs.getString("collateral_re_reg_id_simpool");
+        final String collateral_re_dis_iddistrict = rs.getString("collateral_re_dis_iddistrict");
+        final String collateral_re_dis_idregencies = rs.getString("collateral_re_dis_idregencies");
+        final String collateral_re_dis_namedistrict = rs.getString("collateral_re_dis_namedistrict");
+        final String collateral_re_dis_kodepos = rs.getString("collateral_re_dis_kodepos");
+
+        ApplicationCollateralRealEstateApprovalData appCollateralRe = new ApplicationCollateralRealEstateApprovalData();
+        appCollateralRe.setApplicationid(id.toString());
+        appCollateralRe.setAddress(collateral_re_address);
+        appCollateralRe.setCondition(collateral_re_conditions);
+        appCollateralRe.setDistrictid(collateral_re_districtid);
+        appCollateralRe.setProofofownership(collateral_re_proofofownership);
+        appCollateralRe.setProvinceid(collateral_re_provinceid);
+        appCollateralRe.setRegenciesid(collateral_re_regenciesid);
+        appCollateralRe.setRooms(collateral_re_rooms);
+        appCollateralRe.setSize(collateral_re_sizes);
+        appCollateralRe.setTyperealestate(collateral_re_typerealestate);
+        appCollateralRe.setYear(collateral_re_years);
+
+        ProvinceData provinceCollateralRe = new ProvinceData();
+        provinceCollateralRe.setLocationCode(collateral_re_prov_location_code);
+        provinceCollateralRe.setLocationName(collateral_re_prov_location_name);
+        provinceCollateralRe.setId_simpool(collateral_re_prov_id_simpool);
+
+        RegenciesData regenciesCollateralRe = new RegenciesData();
+        regenciesCollateralRe.setIdprovince(collateral_re_reg_idprovince);
+        regenciesCollateralRe.setIdregencies(collateral_re_reg_idregencies);
+        regenciesCollateralRe.setNameregencies(collateral_re_reg_nameregencies);
+        regenciesCollateralRe.setId_simpool(collateral_re_reg_id_simpool);
+
+        DistrictData districtCollateralRe = new DistrictData();
+        districtCollateralRe.setIddistrict(collateral_re_dis_iddistrict);
+        districtCollateralRe.setIdregencies(collateral_re_dis_idregencies);
+        districtCollateralRe.setNamedistrict(collateral_re_dis_namedistrict);
+
+        appCollateralRe.setProvince(provinceCollateralRe);
+        appCollateralRe.setRegencies(regenciesCollateralRe);
+        appCollateralRe.setDistrict(districtCollateralRe);
+        //
+
         ApplicationApprovalData data = new ApplicationApprovalData();
         data.setId(id);
         data.setAmountloan(loanamount);
@@ -337,6 +428,8 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setAppbankentity(appbank);
         data.setAppbusinessentity(appBusiness);
         data.setAppaddressentity(appaddressentity);
+        data.setAppcollateralentity(appCollateral);
+        data.setAppcollateralreentity(appCollateralRe);
 
         return data;
     }
