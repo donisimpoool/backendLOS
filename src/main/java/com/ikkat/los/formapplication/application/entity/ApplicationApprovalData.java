@@ -1,5 +1,7 @@
 package com.ikkat.los.formapplication.application.entity;
 
+import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppovalAddressData;
+
 import java.sql.Date;
 
 public class ApplicationApprovalData {
@@ -15,6 +17,16 @@ public class ApplicationApprovalData {
     private String provincename;
     private String regenciesname;
     private String status;
+
+    private ApplicationAppovalAddressData appaddressentity;
+
+    public ApplicationAppovalAddressData getAppaddressentity() {
+        return appaddressentity;
+    }
+
+    public void setAppaddressentity(ApplicationAppovalAddressData appaddressentity) {
+        this.appaddressentity = appaddressentity;
+    }
 
     public Long getId() {
         return id;

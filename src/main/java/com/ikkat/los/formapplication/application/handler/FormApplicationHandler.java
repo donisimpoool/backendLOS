@@ -77,6 +77,11 @@ public class FormApplicationHandler implements FormApplicationService {
     private ApplicationCollateralDepositService applicationCollateralDepositService;
 
     @Override
+    public List<ApplicationApprovalData> getApprovalApplicationList(Long idcompany, String status) {
+        return null;
+    }
+
+    @Override
     public List<ApplicationListData> getApplicarionListByDraft(Long idcompany, boolean isDraft) {
         final StringBuilder sqlBuilder = new StringBuilder("select " + new GetListApplicationData().schema());
         sqlBuilder.append(" where data.idcompany = ? and isdraft = "+isDraft+" ");

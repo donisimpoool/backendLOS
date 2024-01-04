@@ -6,7 +6,7 @@ import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.subdistrict.entity.SubdistrictData;
 
 public class ApplicationAppovalAddressData {
-    private String applicationid;
+    private Long applicationid;
     private ProvinceData provincemain;
     private ProvinceData provincesecond;
     private RegenciesData regenciesmain;
@@ -34,11 +34,11 @@ public class ApplicationAppovalAddressData {
     private String usedforcollateral;
     private String villagesid;
 
-    public String getApplicationid() {
+    public Long getApplicationid() {
         return applicationid;
     }
 
-    public void setApplicationid(String applicationid) {
+    public void setApplicationid(Long applicationid) {
         this.applicationid = applicationid;
     }
 
