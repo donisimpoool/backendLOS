@@ -4,6 +4,8 @@ import com.ikkat.los.district.entity.DistrictData;
 import com.ikkat.los.formapplication.application.entity.ApplicationApprovalData;
 import com.ikkat.los.formapplication.application.entity.ApplicationData;
 import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppovalAddressData;
+import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalBank;
+import com.ikkat.los.formapplication.applicationbank.entity.BankData;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.subdistrict.entity.SubdistrictData;
@@ -38,7 +40,13 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("address_dis.iddistrict as addressdis_iddistrict, address_dis.idregencies as addressdis_idregencies , address_dis.namedistrict as addressdis_namedistrict, address_dis.kodepos as addressdis_kodepos, ");
         sqlBuilder.append("address2_dis.iddistrict as address2dis_iddistrict, address2_dis.idregencies as address2dis_idregencies , address2_dis.namedistrict as address2dis_namedistrict, address2_dis.kodepos as address2dis_kodepos, ");
         sqlBuilder.append("address_subdis.idsubdistrict as addresssubdis_idsubdistrict, address_subdis.iddistrict as addresssubdis_iddistrict , address_subdis.namesubdistrict as addresssubdis_namesubdistrict, address_subdis.kodepos as addresssubdis_kodepos, address_subdis.kecamatan as addresssubdis_kecamatan, ");
+        //
 
+        //formapplication_bank
+        sqlBuilder.append("bank.bankid as bank_bankid, bank.accounttype as bank_accounttype, bank.accountnumber as bank_accountnumber, bank.iscreditcard as bank_iscreditcard, bank.bankcc as bank_bankcc, ");
+        sqlBuilder.append("bank.numbercc as bank_numbercc, bank.typecredittcard as bank_typecredittcard, ");
+        sqlBuilder.append("mbank.bank_id as mbank_bank_id, mbank.bank_name as mbank_bank_name, ");
+        sqlBuilder.append("mbankcc.bank_id as mbankcc_bank_id, mbankcc.bank_name as mbankcc_bank_name, ");
         //
 
         sqlBuilder.append("from formapplication as data ");
@@ -55,6 +63,11 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("left join m_district as address_dis on address_dis.iddistrict = address.iddistrict ");
         sqlBuilder.append("left join m_district as address2_dis on address2_dis.iddistrict = address.secondiddistrict ");
         sqlBuilder.append("left join m_subdistrict as address_subdis on address_subdis.idsubdistrict = address.villagesid ");
+
+        //formapplication_bank
+        sqlBuilder.append("left join formapplication_bank as bank on bank.idapplication = data.id ");
+        sqlBuilder.append("left join m_bank as mbank on mbank.bank_id = bank.bankid ");
+        sqlBuilder.append("left join m_bank as mbankcc on mbankcc.bank_id = bank.bankcc ");
 
         this.schemaSql = sqlBuilder.toString();
     }
@@ -125,6 +138,41 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         final String addresssubdis_kecamatan = rs.getString("addresssubdis_kecamatan");
         //
 
+        //formapplication_bank
+        final String bank_bankid = rs.getString("bank_bankid");
+        final String bank_accounttype = rs.getString("bank_accounttype");
+        final String bank_accountnumber = rs.getString("bank_accountnumber");
+        final boolean bank_iscreditcard = rs.getBoolean("bank_iscreditcard");
+        final String bank_bankcc = rs.getString("bank_bankcc");
+        final String bank_numbercc = rs.getString("bank_numbercc");
+        final String bank_typecredittcard = rs.getString("bank_typecredittcard");
+        final String mbank_bank_id = rs.getString("mbank_bank_id");
+        final String mbank_bank_name = rs.getString("mbank_bank_name");
+        final String mbankcc_bank_id = rs.getString("mbankcc_bank_id");
+        final String mbankcc_bank_name = rs.getString("mbankcc_bank_name");
+
+        ApplicationApprovalBank appbank = new ApplicationApprovalBank();
+        appbank.setApplicationid(id.toString());
+        appbank.setAccountnumber(bank_accountnumber);
+        appbank.setAccounttype(bank_accounttype);
+        appbank.setBankcc(bank_bankcc);
+        appbank.setBankid(bank_bankid);
+        appbank.setIscreditcard(bank_iscreditcard?"Y":"N");
+        appbank.setNumbercc(bank_numbercc);
+        appbank.setTypecredittcard(bank_typecredittcard);
+
+        BankData mbank = new BankData();
+        mbank.setBankId(mbank_bank_id);
+        mbank.setBankName(mbank_bank_name);
+
+        BankData bankcc = new BankData();
+        bankcc.setBankId(mbankcc_bank_id);
+        bankcc.setBankName(mbankcc_bank_name);
+
+        appbank.setBank(mbank);
+        appbank.setBankcredit(bankcc);
+
+
         ApplicationApprovalData data = new ApplicationApprovalData();
         data.setId(id);
         data.setAmountloan(loanamount);
@@ -138,6 +186,7 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setProvincename("");
         data.setRegenciesname("");
         data.setStatus(status);
+        data.setAppbankentity(appbank);
 
         ApplicationAppovalAddressData appaddressentity = new ApplicationAppovalAddressData();
         ProvinceData provincemain = new ProvinceData();
