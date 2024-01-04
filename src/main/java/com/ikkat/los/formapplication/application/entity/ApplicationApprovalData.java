@@ -2,6 +2,7 @@ package com.ikkat.los.formapplication.application.entity;
 
 import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppovalAddressData;
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalBank;
+import com.ikkat.los.formapplication.applicationbusiness.entity.ApplicationBusinessApproval;
 
 import java.sql.Date;
 
@@ -18,10 +19,17 @@ public class ApplicationApprovalData {
     private String provincename;
     private String regenciesname;
     private String status;
-
     private ApplicationAppovalAddressData appaddressentity;
-
     private ApplicationApprovalBank appbankentity;
+    private ApplicationBusinessApproval appbusinessentity;
+
+    public ApplicationBusinessApproval getAppbusinessentity() {
+        return appbusinessentity;
+    }
+
+    public void setAppbusinessentity(ApplicationBusinessApproval appbusinessentity) {
+        this.appbusinessentity = appbusinessentity;
+    }
 
     public ApplicationApprovalBank getAppbankentity() {
         return appbankentity;

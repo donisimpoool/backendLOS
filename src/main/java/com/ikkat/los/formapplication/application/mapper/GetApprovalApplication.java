@@ -6,6 +6,7 @@ import com.ikkat.los.formapplication.application.entity.ApplicationData;
 import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppovalAddressData;
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalBank;
 import com.ikkat.los.formapplication.applicationbank.entity.BankData;
+import com.ikkat.los.formapplication.applicationbusiness.entity.ApplicationBusinessApproval;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.subdistrict.entity.SubdistrictData;
@@ -49,6 +50,14 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("mbankcc.bank_id as mbankcc_bank_id, mbankcc.bank_name as mbankcc_bank_name, ");
         //
 
+        //formapplication_business
+        sqlBuilder.append("business.companyname as business_companyname, business.companyaddress as business_companyaddress, business.provinceid as business_provinceid, business.division as business_division, business.positions as business_positions, ");
+        sqlBuilder.append("business.duration as business_duration, business.numberofemployees as business_numberofemployees, business.businessline as business_businessline, business.idregencies as business_idregencies, business.iddistrict as business_iddistrict, ");
+        sqlBuilder.append("business_prov.location_code as businessprov_location_code, business_prov.location_name as businessprov_location_name, business_prov.id_simpool as businessprov_id_simpool, ");
+        sqlBuilder.append("business_reg.idregencies as businessreg_idregencies, business_reg.idprovince as businessreg_idprovince, business_reg.nameregencies as businessreg_nameregencies, business_reg.id_simpool as businessreg_id_simpool, ");
+        sqlBuilder.append("business_dis.iddistrict as businessdis_iddistrict, business_dis.idregencies as businessdis_idregencies , business_dis.namedistrict as businessdis_namedistrict, business_dis.kodepos as businessdis_kodepos, ");
+        //
+
         sqlBuilder.append("from formapplication as data ");
         sqlBuilder.append("left join formapplication_personal as personal on personal.idapplication = data.id ");
         sqlBuilder.append("left join formapplication_loan as loan on loan.idapplication = data.id ");
@@ -68,6 +77,13 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("left join formapplication_bank as bank on bank.idapplication = data.id ");
         sqlBuilder.append("left join m_bank as mbank on mbank.bank_id = bank.bankid ");
         sqlBuilder.append("left join m_bank as mbankcc on mbankcc.bank_id = bank.bankcc ");
+        //
+
+        //formapplication_business
+        sqlBuilder.append("left join formapplication_business as business on business.idapplication = data.id ");
+        sqlBuilder.append("left join m_province as business_prov on business_prov.location_code = business.provinceid ");
+        sqlBuilder.append("left join m_regencies as business_reg on business_reg.idregencies = business.idregencies ");
+        sqlBuilder.append("left join m_district as business_dis on business_dis.iddistrict = business.iddistrict ");
 
         this.schemaSql = sqlBuilder.toString();
     }
@@ -171,22 +187,70 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
 
         appbank.setBank(mbank);
         appbank.setBankcredit(bankcc);
+        //
+
+        //formapplication_business
+        final String business_companyname = rs.getString("business_companyname");
+        final String business_companyaddress = rs.getString("business_companyaddress");
+        final String business_provinceid = rs.getString("business_provinceid");
+        final String business_division = rs.getString("business_division");
+        final String business_positions = rs.getString("business_positions");
+
+        final int business_duration = rs.getInt("business_duration");
+        final int business_numberofemployees = rs.getInt("business_numberofemployees");
+        final String business_businessline = rs.getString("business_businessline");
+        final String business_idregencies = rs.getString("business_idregencies");
+        final String business_iddistrict = rs.getString("business_iddistrict");
+        final String businessprov_location_code = rs.getString("businessprov_location_code");
+        final String businessprov_location_name = rs.getString("businessprov_location_name");
+        final String businessprov_id_simpool = rs.getString("businessprov_id_simpool");
+
+        final String businessreg_idregencies = rs.getString("businessreg_idregencies");
+        final String businessreg_idprovince = rs.getString("businessreg_idprovince");
+        final String businessreg_nameregencies = rs.getString("businessreg_nameregencies");
+        final String businessreg_id_simpool = rs.getString("businessreg_id_simpool");
+
+        final String businessdis_iddistrict = rs.getString("businessdis_iddistrict");
+        final String businessdis_idregencies = rs.getString("businessdis_idregencies");
+        final String businessdis_namedistrict = rs.getString("businessdis_namedistrict");
+        final String businessdis_kodepos = rs.getString("businessdis_kodepos");
+
+        ApplicationBusinessApproval appBusiness = new ApplicationBusinessApproval();
+        appBusiness.setApplicationid(id.toString());
+        appBusiness.setBusinessline(business_businessline);
+        appBusiness.setCompanyaddress(business_companyaddress);
+        appBusiness.setCompanyname(business_companyname);
+        appBusiness.setDivision(business_division);
+        appBusiness.setDuration(business_duration);
+        appBusiness.setIddistrict(business_iddistrict);
+        appBusiness.setIdregencies(business_idregencies);
+        appBusiness.setNumberofemployees(business_numberofemployees);
+        appBusiness.setPosition(business_positions);
+        appBusiness.setProvinceid(business_provinceid);
+
+        ProvinceData provincebusiness = new ProvinceData();
+        provincebusiness.setLocationCode(businessprov_location_code);
+        provincebusiness.setLocationName(businessprov_location_name);
+        provincebusiness.setId_simpool(businessprov_id_simpool);
 
 
-        ApplicationApprovalData data = new ApplicationApprovalData();
-        data.setId(id);
-        data.setAmountloan(loanamount);
-        data.setCreatedateapplication(dateform);
-        data.setCreatedateapplicationmonth(dateform);
-        data.setDistrictname("");
-        data.setFullname(personalnames);
-        data.setListdoc(new String[0]);
-        data.setLoanid(loan_product_id);
-        data.setLoannameproduct(loan_name);
-        data.setProvincename("");
-        data.setRegenciesname("");
-        data.setStatus(status);
-        data.setAppbankentity(appbank);
+        RegenciesData regenciesbusiness = new RegenciesData();
+        regenciesbusiness.setIdprovince(businessreg_idprovince);
+        regenciesbusiness.setIdregencies(businessreg_idregencies);
+        regenciesbusiness.setNameregencies(businessreg_nameregencies);
+        regenciesbusiness.setId_simpool(businessreg_id_simpool);
+
+        DistrictData districtbusiness = new DistrictData();
+        districtbusiness.setIddistrict(businessdis_iddistrict);
+        districtbusiness.setIdregencies(businessdis_idregencies);
+        districtbusiness.setNamedistrict(businessdis_namedistrict);
+
+        appBusiness.setProvince(provincebusiness);
+        appBusiness.setRegencies(regenciesbusiness);
+        appBusiness.setDistrict(districtbusiness);
+
+
+
 
         ApplicationAppovalAddressData appaddressentity = new ApplicationAppovalAddressData();
         ProvinceData provincemain = new ProvinceData();
@@ -255,7 +319,23 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         appaddressentity.setSecondpostalcode(address_secondpostalcode);
         appaddressentity.setSecondprovinceid(address_secondprovinceid);
         appaddressentity.setSecondusedforcollateral(address_secondusedforcollateral);
+        //
 
+        ApplicationApprovalData data = new ApplicationApprovalData();
+        data.setId(id);
+        data.setAmountloan(loanamount);
+        data.setCreatedateapplication(dateform);
+        data.setCreatedateapplicationmonth(dateform);
+        data.setDistrictname("");
+        data.setFullname(personalnames);
+        data.setListdoc(new String[0]);
+        data.setLoanid(loan_product_id);
+        data.setLoannameproduct(loan_name);
+        data.setProvincename("");
+        data.setRegenciesname("");
+        data.setStatus(status);
+        data.setAppbankentity(appbank);
+        data.setAppbusinessentity(appBusiness);
         data.setAppaddressentity(appaddressentity);
 
         return data;
