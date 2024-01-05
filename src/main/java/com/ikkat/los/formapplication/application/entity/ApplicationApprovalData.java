@@ -5,6 +5,8 @@ import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalB
 import com.ikkat.los.formapplication.applicationbusiness.entity.ApplicationBusinessApproval;
 import com.ikkat.los.formapplication.applicationcollateral.entity.ApplicationCollateralApproval;
 import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.ApplicationCollateralRealEstateApprovalData;
+import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyApprovalData;
+import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
 import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
 
 import java.sql.Date;
@@ -29,7 +31,19 @@ public class ApplicationApprovalData {
     private ApplicationCollateralRealEstateApprovalData appcollateralreentity;
     //appcollateraldepositentity
     //appcollateralvehicleentity
+
     private App appentity;
+
+    private ApplicationFamilyApprovalData appfamilyentity;
+    private ApplicationFInancialApprovalData appfinancialentity;
+
+    public ApplicationFInancialApprovalData getAppfinancialentity() {
+        return appfinancialentity;
+    }
+
+    public void setAppfinancialentity(ApplicationFInancialApprovalData appfinancialentity) {
+        this.appfinancialentity = appfinancialentity;
+    }
 
     public App getAppentity() {
         return appentity;
@@ -173,5 +187,13 @@ public class ApplicationApprovalData {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public ApplicationFamilyApprovalData getAppfamilyentity() {
+        return appfamilyentity;
+    }
+
+    public void setAppfamilyentity(ApplicationFamilyApprovalData appfamilyentity) {
+        this.appfamilyentity = appfamilyentity;
     }
 }

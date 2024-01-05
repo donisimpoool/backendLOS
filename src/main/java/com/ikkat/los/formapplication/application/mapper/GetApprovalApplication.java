@@ -3,13 +3,14 @@ package com.ikkat.los.formapplication.application.mapper;
 import com.ikkat.los.district.entity.DistrictData;
 import com.ikkat.los.formapplication.application.entity.App;
 import com.ikkat.los.formapplication.application.entity.ApplicationApprovalData;
-import com.ikkat.los.formapplication.application.entity.ApplicationData;
 import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppovalAddressData;
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalBank;
 import com.ikkat.los.formapplication.applicationbank.entity.BankData;
 import com.ikkat.los.formapplication.applicationbusiness.entity.ApplicationBusinessApproval;
 import com.ikkat.los.formapplication.applicationcollateral.entity.ApplicationCollateralApproval;
 import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.ApplicationCollateralRealEstateApprovalData;
+import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyApprovalData;
+import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
@@ -80,6 +81,17 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("risklevel.probabilityofdefault as risklevel_probabilityofdefault, risklevel.min as risklevel_min, risklevel.max as risklevel_max, risklevel.status as risklevel_status, ");
         //risklevel
 
+        //family
+        sqlBuilder.append("family.contactemergency as family_contactemergency, family.addressemergencycontact as family_addressemergencycontact, family.mobileemergency as family_mobileemergency, ");
+        sqlBuilder.append("family.mothername as family_mothername, ");
+        //
+
+        //formapplication_financial
+        sqlBuilder.append("financial.typeincome as financial_typeincome, financial.mainincome as financial_mainincome, financial.sideincome as financial_sideincome, ");
+        sqlBuilder.append("financial.expense as financial_expense, financial.additionalexpense as financial_additionalexpense, financial.vehicleowner as financial_vehicleowner, ");
+        sqlBuilder.append("financial.typevehicle as financial_typevehicle, ");
+        //
+
         sqlBuilder.append("from formapplication as data ");
         sqlBuilder.append("left join formapplication_personal as personal on personal.idapplication = data.id ");
         sqlBuilder.append("left join formapplication_loan as loan on loan.idapplication = data.id ");
@@ -121,6 +133,14 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
 
         //risk level
         sqlBuilder.append("left join m_risk_level as risklevel on risklevel.id = data.idrisklevel ");
+        //
+
+        //formapplication_family
+        sqlBuilder.append("left join formapplication_family as family on family.idapplication = data.id ");
+        //
+
+        //formapplication_financial
+        sqlBuilder.append("left join formapplication_financial as financial on financial.idapplication = data.id ");
         //
 
         this.schemaSql = sqlBuilder.toString();
@@ -290,8 +310,6 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         appBusiness.setDistrict(districtbusiness);
 
 
-
-
         ApplicationAppovalAddressData appaddressentity = new ApplicationAppovalAddressData();
         ProvinceData provincemain = new ProvinceData();
         provincemain.setLocationCode(addressprov_location_code);
@@ -452,9 +470,39 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         app.setScorecardcomments("");
         //
 
+        //formapplication_family
+        final String family_contactemergency = rs.getString("family_contactemergency");
+        final String family_addressemergencycontact = rs.getString("family_addressemergencycontact");
+        final String family_mobileemergency = rs.getString("family_mobileemergency");
+        final String family_mothername = rs.getString("family_mothername");
 
+        ApplicationFamilyApprovalData appFamily = new ApplicationFamilyApprovalData();
+        appFamily.setApplicationid(id.toString());
+        appFamily.setContactemergency(family_contactemergency);
+        appFamily.setAddressemergencycontact(family_addressemergencycontact);
+        appFamily.setMobileemergency(family_mobileemergency);
+        appFamily.setMothername(family_mothername);
+        //
 
+        //formapplication_financial
+        final String financial_typeincome = rs.getString("financial_typeincome");
+        final Double financial_mainincome = rs.getDouble("financial_mainincome");
+        final Double financial_sideincome = rs.getDouble("financial_sideincome");
+        final Double financial_expense = rs.getDouble("financial_expense");
+        final Double financial_additionalexpense = rs.getDouble("financial_additionalexpense");
+        final boolean financial_vehicleowner = rs.getBoolean("financial_vehicleowner");
+        final String financial_typevehicle = rs.getString("financial_typevehicle");
 
+        ApplicationFInancialApprovalData appFinance = new ApplicationFInancialApprovalData();
+        appFinance.setApplicationid(id.toString());
+        appFinance.setExpense(financial_expense);
+        appFinance.setAdditionalexpense(financial_additionalexpense);
+        appFinance.setMainincome(financial_mainincome);
+        appFinance.setSideincome(financial_sideincome);
+        appFinance.setTypeincome(financial_typeincome);
+        appFinance.setTypevehicle(financial_typevehicle);
+        appFinance.setVehicleowner(financial_vehicleowner?"Y":"N");
+        //
 
         ApplicationApprovalData data = new ApplicationApprovalData();
         data.setId(id);
@@ -475,7 +523,8 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setAppcollateralentity(appCollateral);
         data.setAppcollateralreentity(appCollateralRe);
         data.setAppentity(app);
-
+        data.setAppfamilyentity(appFamily);
+        data.setAppfinancialentity(appFinance);
         return data;
     }
 }
