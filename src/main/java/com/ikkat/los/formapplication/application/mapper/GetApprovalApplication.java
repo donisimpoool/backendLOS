@@ -1,6 +1,7 @@
 package com.ikkat.los.formapplication.application.mapper;
 
 import com.ikkat.los.district.entity.DistrictData;
+import com.ikkat.los.formapplication.application.entity.App;
 import com.ikkat.los.formapplication.application.entity.ApplicationApprovalData;
 import com.ikkat.los.formapplication.application.entity.ApplicationData;
 import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppovalAddressData;
@@ -11,6 +12,7 @@ import com.ikkat.los.formapplication.applicationcollateral.entity.ApplicationCol
 import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.ApplicationCollateralRealEstateApprovalData;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
+import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
 import com.ikkat.los.subdistrict.entity.SubdistrictData;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -24,7 +26,7 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
     public GetApprovalApplication() {
         // TODO Auto-generated constructor stub
         final StringBuilder sqlBuilder = new StringBuilder(100);
-        sqlBuilder.append("data.id as id, data.status as status, data.dateform as dateform, ");
+        sqlBuilder.append("data.id as id, data.status as status, data.dateform as dateform, data.score as score, ");
         sqlBuilder.append("personal.names as personalnames, ");
         sqlBuilder.append("loan.amount as loanamount, loanprod.loan_name as loan_name, loanprod.loan_product_id as loan_product_id, ");
 
@@ -73,6 +75,11 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("collateral_re_dis.iddistrict as collateral_re_dis_iddistrict, collateral_re_dis.idregencies as collateral_re_dis_idregencies , collateral_re_dis.namedistrict as collateral_re_dis_namedistrict, collateral_re_dis.kodepos as collateral_re_dis_kodepos, ");
         //
 
+        //Risk Level
+        sqlBuilder.append("risklevel.id as risklevel_id, risklevel.namerisk as risklevel_namerisk, risklevel.odds as risklevel_odds, ");
+        sqlBuilder.append("risklevel.probabilityofdefault as risklevel_probabilityofdefault, risklevel.min as risklevel_min, risklevel.max as risklevel_max, risklevel.status as risklevel_status, ");
+        //risklevel
+
         sqlBuilder.append("from formapplication as data ");
         sqlBuilder.append("left join formapplication_personal as personal on personal.idapplication = data.id ");
         sqlBuilder.append("left join formapplication_loan as loan on loan.idapplication = data.id ");
@@ -112,6 +119,10 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("left join m_district as collateral_re_dis on collateral_re_dis.iddistrict = collateral_re.districtid ");
         //
 
+        //risk level
+        sqlBuilder.append("left join m_risk_level as risklevel on risklevel.id = data.idrisklevel ");
+        //
+
         this.schemaSql = sqlBuilder.toString();
     }
 
@@ -128,6 +139,9 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         final Double loanamount = rs.getDouble("loanamount");
         final String loan_product_id = rs.getString("loan_product_id");
         final String loan_name = rs.getString("loan_name");
+        final int score = rs.getInt("score");
+
+
 
         //formapplication_address
         final Long addressid = rs.getLong("addressid");
@@ -412,6 +426,36 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         appCollateralRe.setDistrict(districtCollateralRe);
         //
 
+        //Risk Level
+        final Long risklevel_id = rs.getLong("risklevel_id");
+        final String risklevel_namerisk = rs.getString("risklevel_namerisk");
+        final String risklevel_odds = rs.getString("risklevel_odds");
+        final Double risklevel_probabilityofdefault = rs.getDouble("risklevel_probabilityofdefault");
+        final Double risklevel_min = rs.getDouble("risklevel_min");
+        final Double risklevel_max = rs.getDouble("risklevel_max");
+        final String risklevel_status = rs.getString("risklevel_status");
+
+        RiskLevelApprovalData riskLevel = new RiskLevelApprovalData();
+        riskLevel.setId(risklevel_id);
+        riskLevel.setNamerisk(risklevel_namerisk);
+        riskLevel.setOdds(risklevel_odds);
+        riskLevel.setProbabilityofdefault(risklevel_probabilityofdefault);
+        riskLevel.setMin(risklevel_min);
+        riskLevel.setMax(risklevel_max);
+        riskLevel.setStatus(risklevel_status);
+
+        App app = new App();
+        app.setRisklevel(riskLevel);
+        app.setDocumentapp(null);
+        app.setScore(score);
+        app.setRuleenginecomments("");
+        app.setScorecardcomments("");
+        //
+
+
+
+
+
         ApplicationApprovalData data = new ApplicationApprovalData();
         data.setId(id);
         data.setAmountloan(loanamount);
@@ -430,6 +474,7 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setAppaddressentity(appaddressentity);
         data.setAppcollateralentity(appCollateral);
         data.setAppcollateralreentity(appCollateralRe);
+        data.setAppentity(app);
 
         return data;
     }
