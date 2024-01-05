@@ -8,6 +8,7 @@ import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.Appl
 import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyApprovalData;
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
 import com.ikkat.los.formapplication.applicationloan.entity.ApplicationLoanApprovalData;
+import com.ikkat.los.formapplication.applicationpersonal.entity.ApplicationPersonelApprovalData;
 import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
 
 import java.sql.Date;
@@ -38,6 +39,15 @@ public class ApplicationApprovalData {
     private ApplicationFamilyApprovalData appfamilyentity;
     private ApplicationFInancialApprovalData appfinancialentity;
     private ApplicationLoanApprovalData apploanentity;
+    private ApplicationPersonelApprovalData apppersonelentity;
+
+    public ApplicationPersonelApprovalData getApppersonelentity() {
+        return apppersonelentity;
+    }
+
+    public void setApppersonelentity(ApplicationPersonelApprovalData apppersonelentity) {
+        this.apppersonelentity = apppersonelentity;
+    }
 
     public ApplicationLoanApprovalData getApploanentity() {
         return apploanentity;

@@ -13,6 +13,7 @@ import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyA
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
 import com.ikkat.los.formapplication.applicationloan.entity.ApplicationLoanApprovalData;
 import com.ikkat.los.formapplication.applicationloan.entity.LoanProduct;
+import com.ikkat.los.formapplication.applicationpersonal.entity.ApplicationPersonelApprovalData;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
@@ -32,9 +33,15 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         // TODO Auto-generated constructor stub
         final StringBuilder sqlBuilder = new StringBuilder(100);
         sqlBuilder.append("data.id as id, data.status as status, data.dateform as dateform, data.score as score, ");
-        sqlBuilder.append("personal.names as personalnames, ");
         sqlBuilder.append("loan.amount as loanamount, loanprod.loan_name as loan_name, loanprod.loan_product_id as loan_product_id, ");
         sqlBuilder.append("loan.tenor as loantenor, loan.purposeofloan as loanpurposeofloan, ");
+
+        //formapplication_personal
+        sqlBuilder.append("personal.names as personalnames, personal.mobilephone as personalmobilephone, personal.landlinephone as personallandlinephone, personal.placeofbirth as personalplaceofbirth, ");
+        sqlBuilder.append("personal.dateofbirth as personaldateofbirth, personal.gender as personalgender, personal.typeid as personaltypeid, personal.education as personaleducation, ");
+        sqlBuilder.append("personal.maritalstatus as personalmaritalstatus, personal.email as personalemail, personal.idnumber as personalidnumber, personal.numberofdependant as personalnumberofdependant, ");
+        sqlBuilder.append("personal.religionid as personalreligionid, personal.taxnumber as personaltaxnumber, ");
+        //
 
         //formapplication_address
         sqlBuilder.append("address.id as addressid, address.mainaddress as mainaddress, address.provinceid as address_provinceid, address.postalcode as address_postalcode, ");
@@ -522,6 +529,47 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         prodloan.setLoanName(loan_name);
         appLoan.setLoanproduct(prodloan);
 
+        //ApplicationPersonelApprovalData
+        final String personalmobilephone = rs.getString("personalmobilephone");
+        final String personallandlinephone = rs.getString("personallandlinephone");
+        final String personalplaceofbirth = rs.getString("personalplaceofbirth");
+        final Date personaldateofbirth = rs.getDate("personaldateofbirth");
+
+        final String personalgender = rs.getString("personalgender");
+        final String personaltypeid = rs.getString("personaltypeid");
+        final String personaleducation = rs.getString("personaleducation");
+        final String personalmaritalstatus = rs.getString("personalmaritalstatus");
+        final String personalemail = rs.getString("personalemail");
+        final String personalidnumber = rs.getString("personalidnumber");
+        final int personalnumberofdependant = rs.getInt("personalnumberofdependant");
+        final String personalreligionid = rs.getString("personalreligionid");
+        final String personaltaxnumber = rs.getString("personaltaxnumber");
+
+
+        ApplicationPersonelApprovalData appPersonel = new ApplicationPersonelApprovalData();
+        appPersonel.setApplicationID(id.toString());
+        if(personaldateofbirth != null){
+            appPersonel.setDatebirth(personaldateofbirth.toString());
+            appPersonel.setDateofbirth(personaldateofbirth.toString());
+        }else{
+            appPersonel.setDatebirth("");
+            appPersonel.setDateofbirth("");
+        }
+        appPersonel.setEducation(personaleducation);
+        appPersonel.setEmail(personalemail);
+        appPersonel.setGender(personalgender);
+        appPersonel.setIdnumber(personalidnumber);
+        appPersonel.setLandlinephone(personallandlinephone);
+        appPersonel.setMaritalstatus(personalmaritalstatus);
+        appPersonel.setMobilephone(personalmobilephone);
+        appPersonel.setName(personalnames);
+        appPersonel.setNumberofdependant(personalnumberofdependant);
+        appPersonel.setPlaceofbirth(personalplaceofbirth);
+        appPersonel.setReligionid(personalreligionid);
+        appPersonel.setTaxnumber(personaltaxnumber);
+        appPersonel.setTypeid(personaltypeid);
+        //
+
         ApplicationApprovalData data = new ApplicationApprovalData();
         data.setId(id);
         data.setAmountloan(loanamount);
@@ -544,6 +592,7 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setAppfamilyentity(appFamily);
         data.setAppfinancialentity(appFinance);
         data.setApploanentity(appLoan);
+        data.setApppersonelentity(appPersonel);
         return data;
     }
 }
