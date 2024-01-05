@@ -11,6 +11,8 @@ import com.ikkat.los.formapplication.applicationcollateral.entity.ApplicationCol
 import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.ApplicationCollateralRealEstateApprovalData;
 import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyApprovalData;
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
+import com.ikkat.los.formapplication.applicationloan.entity.ApplicationLoanApprovalData;
+import com.ikkat.los.formapplication.applicationloan.entity.LoanProduct;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
@@ -24,12 +26,15 @@ import java.sql.SQLException;
 public class GetApprovalApplication implements RowMapper<ApplicationApprovalData> {
     private String schemaSql;
 
+
+
     public GetApprovalApplication() {
         // TODO Auto-generated constructor stub
         final StringBuilder sqlBuilder = new StringBuilder(100);
         sqlBuilder.append("data.id as id, data.status as status, data.dateform as dateform, data.score as score, ");
         sqlBuilder.append("personal.names as personalnames, ");
         sqlBuilder.append("loan.amount as loanamount, loanprod.loan_name as loan_name, loanprod.loan_product_id as loan_product_id, ");
+        sqlBuilder.append("loan.tenor as loantenor, loan.purposeofloan as loanpurposeofloan, ");
 
         //formapplication_address
         sqlBuilder.append("address.id as addressid, address.mainaddress as mainaddress, address.provinceid as address_provinceid, address.postalcode as address_postalcode, ");
@@ -504,6 +509,19 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         appFinance.setVehicleowner(financial_vehicleowner?"Y":"N");
         //
 
+        final String loanpurposeofloan = rs.getString("loanpurposeofloan");
+        final int loantenor = rs.getInt("loantenor");
+
+        ApplicationLoanApprovalData appLoan = new ApplicationLoanApprovalData();
+        appLoan.setApplicationID(id.toString());
+        appLoan.setAmount(loanamount);
+        appLoan.setLoanproductID(loan_product_id);
+        appLoan.setPurposeofloan(loanpurposeofloan);
+        appLoan.setTenor(loantenor);
+        LoanProduct prodloan = new LoanProduct();
+        prodloan.setLoanName(loan_name);
+        appLoan.setLoanproduct(prodloan);
+
         ApplicationApprovalData data = new ApplicationApprovalData();
         data.setId(id);
         data.setAmountloan(loanamount);
@@ -525,6 +543,7 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setAppentity(app);
         data.setAppfamilyentity(appFamily);
         data.setAppfinancialentity(appFinance);
+        data.setApploanentity(appLoan);
         return data;
     }
 }
