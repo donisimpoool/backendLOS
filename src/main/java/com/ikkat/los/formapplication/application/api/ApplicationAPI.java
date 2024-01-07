@@ -34,4 +34,12 @@ public class ApplicationAPI {
         Response response = securityService.response(ConstansPermission.CREATE_APPLICATION,body,authorization);
         return ResponseEntity.status(response.getHttpcode()).contentType(MediaType.APPLICATION_JSON).body(response);
     }
+
+    @GetMapping("/getListApprove")
+    ResponseEntity<Response> getListApprovalApplication(@RequestHeader(ConstansKey.AUTH) String authorization) {
+        HashMap<String, Object> param = new HashMap<String, Object>();
+        param.put("type", "APPROVAL_ALL");
+        Response response = securityService.response(ConstansPermission.READ_APPLICATION,param,authorization);
+        return ResponseEntity.status(response.getHttpcode()).contentType(MediaType.APPLICATION_JSON).body(response);
+    }
 }

@@ -62,6 +62,8 @@ public class ProcessHandler implements ProcessService{
                 String type = (String) param.get("type");
                 if(type.equals("ALL")) {
                     val.setData(applicationService.getApplicarionListByDraft(auth.getIdcompany(), true));
+                }else if(type.equals("APPROVAL_ALL")) {
+                    val.setData(applicationService.getApprovalApplicationList(auth.getIdcompany(), ""));
                 }
             }
         }

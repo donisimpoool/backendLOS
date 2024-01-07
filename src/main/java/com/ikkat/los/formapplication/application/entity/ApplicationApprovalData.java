@@ -9,9 +9,12 @@ import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyA
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
 import com.ikkat.los.formapplication.applicationloan.entity.ApplicationLoanApprovalData;
 import com.ikkat.los.formapplication.applicationpersonal.entity.ApplicationPersonelApprovalData;
+import com.ikkat.los.formapplication.applicationscore.entity.ApplicationScoreApprovalData;
 import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
+import com.ikkat.los.roulesscores.entity.RoulesScoreMaxByGroup;
 
 import java.sql.Date;
+import java.util.List;
 
 public class ApplicationApprovalData {
     private Long id;
@@ -40,6 +43,26 @@ public class ApplicationApprovalData {
     private ApplicationFInancialApprovalData appfinancialentity;
     private ApplicationLoanApprovalData apploanentity;
     private ApplicationPersonelApprovalData apppersonelentity;
+    private ApplicationScoreApprovalData appscore;
+
+    private List<RoulesScoreMaxByGroup> listscoremax;
+    //
+
+    public List<RoulesScoreMaxByGroup> getListscoremax() {
+        return listscoremax;
+    }
+
+    public void setListscoremax(List<RoulesScoreMaxByGroup> listscoremax) {
+        this.listscoremax = listscoremax;
+    }
+
+    public ApplicationScoreApprovalData getAppscore() {
+        return appscore;
+    }
+
+    public void setAppscore(ApplicationScoreApprovalData appscore) {
+        this.appscore = appscore;
+    }
 
     public ApplicationPersonelApprovalData getApppersonelentity() {
         return apppersonelentity;

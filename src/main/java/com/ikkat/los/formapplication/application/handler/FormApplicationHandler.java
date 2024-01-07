@@ -2,6 +2,7 @@ package com.ikkat.los.formapplication.application.handler;
 
 import com.ikkat.los.enumeration.TypeCollateral;
 import com.ikkat.los.formapplication.application.entity.*;
+import com.ikkat.los.formapplication.application.mapper.GetApprovalApplication;
 import com.ikkat.los.formapplication.application.mapper.GetDataApplication;
 import com.ikkat.los.formapplication.application.mapper.GetListApplicationData;
 import com.ikkat.los.formapplication.application.repo.FormApplicationRepo;
@@ -20,6 +21,7 @@ import com.ikkat.los.formapplication.applicationpersonal.service.ApplicationPers
 import com.ikkat.los.formapplication.applicationscore.entity.BodyApplicationScore;
 import com.ikkat.los.formapplication.applicationscore.service.ApplicationScoreService;
 import com.ikkat.los.risklevel.entity.RiskLevelData;
+import com.ikkat.los.roulesscores.entity.RoulesScoreMaxByGroup;
 import com.ikkat.los.roulesscores.entity.RoulesScoresData;
 import com.ikkat.los.roulesscores.service.RoulesScoresService;
 import com.ikkat.los.scoring.entity.ParamsRoulesScoreEntity;
@@ -78,7 +80,26 @@ public class FormApplicationHandler implements FormApplicationService {
 
     @Override
     public List<ApplicationApprovalData> getApprovalApplicationList(Long idcompany, String status) {
-        return null;
+        final StringBuilder sqlBuilder = new StringBuilder("select " + new GetApprovalApplication().schema());
+        sqlBuilder.append(" where data.idcompany = ? ");
+        if(!status.equals("")){
+            sqlBuilder.append(" and data.status = '"+status+"' ");
+        }
+
+        final Object[] queryParameters = new Object[] {idcompany};
+        List<ApplicationApprovalData> listapp = this.jdbcTemplate.query(sqlBuilder.toString(), new GetApprovalApplication(), queryParameters);
+        if(listapp != null && listapp.size() > 0){
+            List<RoulesScoreMaxByGroup> listRules = rulesService.getListRoulesMaxByGroup(idcompany,false);
+            List<ApplicationApprovalData> list = new ArrayList<>();
+            for(ApplicationApprovalData app : listapp){
+                app.setListscoremax(listRules);
+                list.add(app);
+            }
+
+            return list;
+        }
+
+        return listapp;
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFIna
 import com.ikkat.los.formapplication.applicationloan.entity.ApplicationLoanApprovalData;
 import com.ikkat.los.formapplication.applicationloan.entity.LoanProduct;
 import com.ikkat.los.formapplication.applicationpersonal.entity.ApplicationPersonelApprovalData;
+import com.ikkat.los.formapplication.applicationscore.entity.ApplicationScoreApprovalData;
 import com.ikkat.los.province.entity.ProvinceData;
 import com.ikkat.los.regencies.entity.RegenciesData;
 import com.ikkat.los.risklevel.entity.RiskLevelApprovalData;
@@ -53,7 +54,7 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("address2_prov.location_code as address2prov_location_code, address2_prov.location_name as address2prov_location_name, address2_prov.id_simpool as address2prov_id_simpool, ");
 
         sqlBuilder.append("address_reg.idregencies as addressreg_idregencies, address_reg.idprovince as addressreg_idprovince, address_reg.nameregencies as addressreg_nameregencies, address_reg.id_simpool as addressreg_id_simpool, ");
-        sqlBuilder.append("address2_reg.idregencies as address2reg_idregencies, address2_reg.idprovince as address2reg_idprovince, address2_reg.nameregencies as address2reg_nameregencies, address2_reg.id_simpool as address2reg_id_simpool ");
+        sqlBuilder.append("address2_reg.idregencies as address2reg_idregencies, address2_reg.idprovince as address2reg_idprovince, address2_reg.nameregencies as address2reg_nameregencies, address2_reg.id_simpool as address2reg_id_simpool, ");
 
         sqlBuilder.append("address_dis.iddistrict as addressdis_iddistrict, address_dis.idregencies as addressdis_idregencies , address_dis.namedistrict as addressdis_namedistrict, address_dis.kodepos as addressdis_kodepos, ");
         sqlBuilder.append("address2_dis.iddistrict as address2dis_iddistrict, address2_dis.idregencies as address2dis_idregencies , address2_dis.namedistrict as address2dis_namedistrict, address2_dis.kodepos as address2dis_kodepos, ");
@@ -102,6 +103,14 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("financial.typeincome as financial_typeincome, financial.mainincome as financial_mainincome, financial.sideincome as financial_sideincome, ");
         sqlBuilder.append("financial.expense as financial_expense, financial.additionalexpense as financial_additionalexpense, financial.vehicleowner as financial_vehicleowner, ");
         sqlBuilder.append("financial.typevehicle as financial_typevehicle, ");
+        //
+
+        //formapplication_score
+        sqlBuilder.append("score.propertypossession as score_propertypossession, score.numberofdependant as score_numberofdependant, score.gender as score_gender, ");
+        sqlBuilder.append("score.locations as score_locations, score.liveownershipstatus as score_liveownershipstatus, score.vehicleowner as score_vehicleowner, ");
+        sqlBuilder.append("score.maritalstatus as score_maritalstatus, score.companysize as score_companysize, score.creditcardowner as score_creditcardowner, ");
+        sqlBuilder.append("score.debtincomeratio as score_debtincomeratio, score.industrysector as score_industrysector, score.education as score_education, ");
+        sqlBuilder.append("score.incometype as score_incometype, score.age as score_age, score.durationwork as score_durationwork, score.jobtittle as score_jobtittle, score.positions as score_positions ");
         //
 
         sqlBuilder.append("from formapplication as data ");
@@ -153,6 +162,10 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
 
         //formapplication_financial
         sqlBuilder.append("left join formapplication_financial as financial on financial.idapplication = data.id ");
+        //
+
+        //formapplication_score
+        sqlBuilder.append("left join formapplication_score as score on score.idapplication = data.id ");
         //
 
         this.schemaSql = sqlBuilder.toString();
@@ -570,6 +583,46 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         appPersonel.setTypeid(personaltypeid);
         //
 
+        //formapplication_score
+        final int score_propertypossession = rs.getInt("score_propertypossession");
+        final int score_numberofdependant = rs.getInt("score_numberofdependant");
+        final int score_gender = rs.getInt("score_gender");
+        final int score_locations = rs.getInt("score_locations");
+        final int score_liveownershipstatus = rs.getInt("score_liveownershipstatus");
+        final int score_vehicleowner = rs.getInt("score_vehicleowner");
+        final int score_maritalstatus = rs.getInt("score_maritalstatus");
+        final int score_companysize = rs.getInt("score_companysize");
+        final int score_creditcardowner = rs.getInt("score_creditcardowner");
+        final int score_debtincomeratio = rs.getInt("score_debtincomeratio");
+        final int score_industrysector = rs.getInt("score_industrysector");
+        final int score_education = rs.getInt("score_education");
+        final int score_incometype = rs.getInt("score_incometype");
+        final int score_age = rs.getInt("score_age");
+        final int score_durationwork = rs.getInt("score_durationwork");
+        final int score_jobtittle = rs.getInt("score_jobtittle");
+        final int score_positions = rs.getInt("score_positions");
+
+        ApplicationScoreApprovalData appScore = new ApplicationScoreApprovalData();
+        appScore.setApplicationid(id.toString());
+        appScore.setAge(score_age);
+        appScore.setCompanysize(score_companysize);
+        appScore.setCreditcardowner(score_creditcardowner);
+        appScore.setDebtincomeratio(score_debtincomeratio);
+        appScore.setDurationwork(score_durationwork);
+        appScore.setEducation(score_education);
+        appScore.setGender(score_gender);
+        appScore.setIncometype(score_incometype);
+        appScore.setIndustrysector(score_industrysector);
+        appScore.setJobtittle(score_jobtittle);
+        appScore.setLiveownershipstatus(score_liveownershipstatus);
+        appScore.setLocation(score_locations);
+        appScore.setMaritalstatus(score_maritalstatus);
+        appScore.setPosition(score_positions);
+        appScore.setPropertypossession(score_propertypossession);
+        appScore.setVehicleowner(score_vehicleowner);
+        //
+
+
         ApplicationApprovalData data = new ApplicationApprovalData();
         data.setId(id);
         data.setAmountloan(loanamount);
@@ -593,6 +646,7 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setAppfinancialentity(appFinance);
         data.setApploanentity(appLoan);
         data.setApppersonelentity(appPersonel);
+        data.setAppscore(appScore);
         return data;
     }
 }

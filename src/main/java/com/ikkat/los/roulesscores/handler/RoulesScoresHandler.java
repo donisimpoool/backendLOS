@@ -1,6 +1,8 @@
 package com.ikkat.los.roulesscores.handler;
 
+import com.ikkat.los.roulesscores.entity.RoulesScoreMaxByGroup;
 import com.ikkat.los.roulesscores.entity.RoulesScoresData;
+import com.ikkat.los.roulesscores.mapper.GetRoulesScoreMaxByGroup;
 import com.ikkat.los.roulesscores.mapper.GetRoulesScoresData;
 import com.ikkat.los.roulesscores.repo.RoulesScoresRepo;
 import com.ikkat.los.roulesscores.service.RoulesScoresService;
@@ -44,5 +46,13 @@ public class RoulesScoresHandler implements RoulesScoresService {
         sqlBuilder.append(" where data.idcompany = ? and data.isroulestemplate = "+isroulestemplate+" ");
         final Object[] queryParameters = new Object[] {idcompany};
         return this.jdbcTemplate.query(sqlBuilder.toString(), new GetRoulesScoresData(), queryParameters);
+    }
+
+    @Override
+    public List<RoulesScoreMaxByGroup> getListRoulesMaxByGroup(Long idcompany, boolean isroulestemplate) {
+        final StringBuilder sqlBuilder = new StringBuilder("select " + new GetRoulesScoreMaxByGroup().schema());
+        sqlBuilder.append(" where data.idcompany = ? and data.isroulestemplate = "+isroulestemplate+" GROUP BY data.groups ");
+        final Object[] queryParameters = new Object[] {idcompany};
+        return this.jdbcTemplate.query(sqlBuilder.toString(), new GetRoulesScoreMaxByGroup(), queryParameters);
     }
 }
