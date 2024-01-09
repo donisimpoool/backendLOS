@@ -1,8 +1,11 @@
 package com.ikkat.los.Process;
 
 import com.google.gson.Gson;
+import com.ikkat.los.dashboard.service.DashboardService;
 import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
 import com.ikkat.los.formapplication.application.service.FormApplicationService;
+import com.ikkat.los.loanproduct.entity.BodyLoanDashboard;
+import com.ikkat.los.loanproduct.service.LoanProdutsService;
 import com.ikkat.los.security.entity.AuthorizationData;
 import com.ikkat.los.shared.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import java.util.HashMap;
 public class ProcessHandler implements ProcessService{
     @Autowired
     private FormApplicationService applicationService;
+    @Autowired
+    private DashboardService dashboardService;
     @Override
     public ProcessReturn ProcessingFunction(String codepermission, Object data, String authorization) {
         ProcessReturn val = new ProcessReturn();
@@ -64,6 +69,15 @@ public class ProcessHandler implements ProcessService{
                     val.setData(applicationService.getApplicarionListByDraft(auth.getIdcompany(), true));
                 }else if(type.equals("APPROVAL_ALL")) {
                     val.setData(applicationService.getApprovalApplicationList(auth.getIdcompany(), ""));
+                }
+            }else if(codepermission.equals(ConstansPermission.READ_DASHBOARD)) {
+                HashMap<String, Object> param = (HashMap<String, Object>) data;
+                String type = (String) param.get("type");
+                if(type.equals("ALL")) {
+                    BodyLoanDashboard body = (BodyLoanDashboard) param.get("body");
+                    val.setData(dashboardService.getData(auth.getIdcompany(),body));
+                }else if(type.equals("GET_GRAPH")) {
+                    val.setData(dashboardService.getDataGraph(auth.getIdcompany()));
                 }
             }
         }

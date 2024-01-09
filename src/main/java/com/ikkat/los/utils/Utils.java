@@ -11,12 +11,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -334,5 +329,13 @@ public class Utils {
 		}
 
 		return 0;
+	}
+
+	public static int getCurrentMaxDate(int year, int month, int date) {
+		Calendar cal = Calendar.getInstance();
+		//Januari = 0, Feb = 1, dst...
+		cal.set(year, month, date);
+		return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
 	}
 }

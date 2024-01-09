@@ -21,4 +21,5 @@ public interface FormApplicationService {
     List<ApplicationData> findbyOnlyIsDraft(Long idcompany,boolean isdraft);
 
     ReturnData saveAllApplication(Long idcompany, Long iduser, BodyAllApplication body);
+    Long getCountApplicant(Long idcompany,String fromDate,String thruDate,String status);
 }

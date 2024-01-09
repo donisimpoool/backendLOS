@@ -30,7 +30,6 @@ public class ApplicationAPI {
 
     @PostMapping
     ResponseEntity<Response> createObject(@RequestBody @Validated BodyAllApplication body, @RequestHeader(ConstansKey.AUTH) String authorization) {
-        System.out.println("ApplicationAPI In ");
         Response response = securityService.response(ConstansPermission.CREATE_APPLICATION,body,authorization);
         return ResponseEntity.status(response.getHttpcode()).contentType(MediaType.APPLICATION_JSON).body(response);
     }

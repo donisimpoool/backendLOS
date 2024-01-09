@@ -3,6 +3,7 @@ package com.ikkat.los.formapplication.application.handler;
 import com.ikkat.los.enumeration.TypeCollateral;
 import com.ikkat.los.formapplication.application.entity.*;
 import com.ikkat.los.formapplication.application.mapper.GetApprovalApplication;
+import com.ikkat.los.formapplication.application.mapper.GetCountApplicantData;
 import com.ikkat.los.formapplication.application.mapper.GetDataApplication;
 import com.ikkat.los.formapplication.application.mapper.GetListApplicationData;
 import com.ikkat.los.formapplication.application.repo.FormApplicationRepo;
@@ -315,5 +316,20 @@ public class FormApplicationHandler implements FormApplicationService {
         data.setSuccess(validations.size() > 0?false:true);
         data.setValidations(validations);
         return data;
+    }
+
+    @Override
+    public Long getCountApplicant(Long idcompany,String fromDate,String thruDate,String status) {
+        final StringBuilder sqlBuilder = new StringBuilder("select " + new GetCountApplicantData().schema());
+        sqlBuilder.append(" where data.idcompany = ? and data.dateform >= '"+fromDate+"' and data.dateform <= '"+thruDate+"' ");
+        if(!status.equals("")){
+            sqlBuilder.append(" and data.status = '"+status+"' ");
+        }
+        final Object[] queryParameters = new Object[] {idcompany};
+        List<Long> list = this.jdbcTemplate.query(sqlBuilder.toString(), new GetCountApplicantData(), queryParameters);
+        if(list != null && list.size() > 0){
+            return list.get(0);
+        }
+        return 0L;
     }
 }
