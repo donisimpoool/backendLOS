@@ -4,7 +4,9 @@ import com.ikkat.los.formapplication.applicationaddress.entity.ApplicationAppova
 import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalBank;
 import com.ikkat.los.formapplication.applicationbusiness.entity.ApplicationBusinessApproval;
 import com.ikkat.los.formapplication.applicationcollateral.entity.ApplicationCollateralApproval;
+import com.ikkat.los.formapplication.applicationcollateraldeposit.entity.ApplicationCollateralDepositApprovalData;
 import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.ApplicationCollateralRealEstateApprovalData;
+import com.ikkat.los.formapplication.applicationcollateralvehicle.entity.ApplicationCollateralVehicleApprovalData;
 import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyApprovalData;
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
 import com.ikkat.los.formapplication.applicationloan.entity.ApplicationLoanApprovalData;
@@ -34,8 +36,8 @@ public class ApplicationApprovalData {
     private ApplicationBusinessApproval appbusinessentity;
     private ApplicationCollateralApproval appcollateralentity;
     private ApplicationCollateralRealEstateApprovalData appcollateralreentity;
-    //appcollateraldepositentity
-    //appcollateralvehicleentity
+    private ApplicationCollateralDepositApprovalData appcollateraldepositentity;
+    private ApplicationCollateralVehicleApprovalData appcollateralvehicleentity;
 
     private App appentity;
 
@@ -47,6 +49,22 @@ public class ApplicationApprovalData {
 
     private List<RoulesScoreMaxByGroup> listscoremax;
     //
+
+    public ApplicationCollateralDepositApprovalData getAppcollateraldepositentity() {
+        return appcollateraldepositentity;
+    }
+
+    public void setAppcollateraldepositentity(ApplicationCollateralDepositApprovalData appcollateraldepositentity) {
+        this.appcollateraldepositentity = appcollateraldepositentity;
+    }
+
+    public ApplicationCollateralVehicleApprovalData getAppcollateralvehicleentity() {
+        return appcollateralvehicleentity;
+    }
+
+    public void setAppcollateralvehicleentity(ApplicationCollateralVehicleApprovalData appcollateralvehicleentity) {
+        this.appcollateralvehicleentity = appcollateralvehicleentity;
+    }
 
     public List<RoulesScoreMaxByGroup> getListscoremax() {
         return listscoremax;

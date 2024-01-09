@@ -8,7 +8,9 @@ import com.ikkat.los.formapplication.applicationbank.entity.ApplicationApprovalB
 import com.ikkat.los.formapplication.applicationbank.entity.BankData;
 import com.ikkat.los.formapplication.applicationbusiness.entity.ApplicationBusinessApproval;
 import com.ikkat.los.formapplication.applicationcollateral.entity.ApplicationCollateralApproval;
+import com.ikkat.los.formapplication.applicationcollateraldeposit.entity.ApplicationCollateralDepositApprovalData;
 import com.ikkat.los.formapplication.applicationcollateralrealestate.entity.ApplicationCollateralRealEstateApprovalData;
+import com.ikkat.los.formapplication.applicationcollateralvehicle.entity.ApplicationCollateralVehicleApprovalData;
 import com.ikkat.los.formapplication.applicationfamily.entity.ApplicationFamilyApprovalData;
 import com.ikkat.los.formapplication.applicationfinancial.entity.ApplicationFInancialApprovalData;
 import com.ikkat.los.formapplication.applicationloan.entity.ApplicationLoanApprovalData;
@@ -110,9 +112,18 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("score.locations as score_locations, score.liveownershipstatus as score_liveownershipstatus, score.vehicleowner as score_vehicleowner, ");
         sqlBuilder.append("score.maritalstatus as score_maritalstatus, score.companysize as score_companysize, score.creditcardowner as score_creditcardowner, ");
         sqlBuilder.append("score.debtincomeratio as score_debtincomeratio, score.industrysector as score_industrysector, score.education as score_education, ");
-        sqlBuilder.append("score.incometype as score_incometype, score.age as score_age, score.durationwork as score_durationwork, score.jobtittle as score_jobtittle, score.positions as score_positions ");
+        sqlBuilder.append("score.incometype as score_incometype, score.age as score_age, score.durationwork as score_durationwork, score.jobtittle as score_jobtittle, score.positions as score_positions, ");
         //
 
+        //collateral_vehicle
+        sqlBuilder.append("collateral_vehicle.typevehicle as collateral_vehicle_typevehicle, collateral_vehicle.brand as collateral_vehicle_brand, collateral_vehicle.typetransmision as collateral_vehicle_typetransmision, ");
+        sqlBuilder.append("collateral_vehicle.years as collateral_vehicle_years, collateral_vehicle.mileage as collateral_vehicle_mileage, collateral_vehicle.model as collateral_vehicle_model, ");
+
+        //collateral_deposit
+        sqlBuilder.append("collateral_deposit.bankid as collateral_deposit_bankid, collateral_deposit.amount as collateral_deposit_amount, ");
+        sqlBuilder.append("collateral_deposit.currency as collateral_deposit_currency, collateral_deposit.accountnumber as collateral_deposit_accountnumber, collateral_deposit.duedate as collateral_deposit_duedate, ");
+        sqlBuilder.append("collateral_deposit_bank.bank_name as collateral_deposit_bank_name ");
+        //
         sqlBuilder.append("from formapplication as data ");
         sqlBuilder.append("left join formapplication_personal as personal on personal.idapplication = data.id ");
         sqlBuilder.append("left join formapplication_loan as loan on loan.idapplication = data.id ");
@@ -150,6 +161,15 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         sqlBuilder.append("left join m_province as collateral_re_prov on collateral_re_prov.location_code = collateral_re.provinceid ");
         sqlBuilder.append("left join m_regencies as collateral_re_reg on collateral_re_reg.idregencies = collateral_re.regenciesid ");
         sqlBuilder.append("left join m_district as collateral_re_dis on collateral_re_dis.iddistrict = collateral_re.districtid ");
+        //
+
+        //formapplication_collateral_vehicle
+        sqlBuilder.append("left join formapplication_collateral_vehicle as collateral_vehicle on collateral_vehicle.idapplication = data.id ");
+        //
+
+        //formapplication_collateral_deposit
+        sqlBuilder.append("left join formapplication_collateral_deposit as collateral_deposit on collateral_deposit.idapplication = data.id ");
+        sqlBuilder.append("left join m_bank as collateral_deposit_bank on collateral_deposit.bankid = collateral_deposit_bank.bank_id ");
         //
 
         //risk level
@@ -620,6 +640,47 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         appScore.setPosition(score_positions);
         appScore.setPropertypossession(score_propertypossession);
         appScore.setVehicleowner(score_vehicleowner);
+        appScore.setNumberofdependant(score_numberofdependant);
+        //
+
+        //collateral_vehicle
+        final String collateral_vehicle_typevehicle = rs.getString("collateral_vehicle_typevehicle");
+        final String collateral_vehicle_brand = rs.getString("collateral_vehicle_brand");
+        final String collateral_vehicle_typetransmision = rs.getString("collateral_vehicle_typetransmision");
+        final int collateral_vehicle_years = rs.getInt("collateral_vehicle_years");
+        final String collateral_vehicle_mileage = rs.getString("collateral_vehicle_mileage");
+        final String collateral_vehicle_model = rs.getString("collateral_vehicle_model");
+
+        ApplicationCollateralVehicleApprovalData appCollateralVehicle = new ApplicationCollateralVehicleApprovalData();
+        appCollateralVehicle.setApplicationid(id.toString());
+        appCollateralVehicle.setTypevehicle(collateral_vehicle_typevehicle);
+        appCollateralVehicle.setBrand(collateral_vehicle_brand);
+        appCollateralVehicle.setTypetransmision(collateral_vehicle_typetransmision);
+        appCollateralVehicle.setYear(collateral_vehicle_years);
+        appCollateralVehicle.setMileage(collateral_vehicle_mileage);
+        appCollateralVehicle.setModel(collateral_vehicle_model);
+        //
+
+        //collateral_deposit
+        final String collateral_deposit_bankid = rs.getString("collateral_deposit_bankid");
+        final Double collateral_deposit_amount = rs.getDouble("collateral_deposit_amount");
+        final String collateral_deposit_currency = rs.getString("collateral_deposit_currency");
+        final String collateral_deposit_accountnumber = rs.getString("collateral_deposit_accountnumber");
+        final Date collateral_deposit_duedate = rs.getDate("collateral_deposit_duedate");
+        final String collateral_deposit_bank_name = rs.getString("collateral_deposit_bank_name");
+        //
+        com.ikkat.los.bank.entity.BankData bankCollDeposit = new com.ikkat.los.bank.entity.BankData();
+        bankCollDeposit.setBankId(collateral_deposit_bankid);
+        bankCollDeposit.setBankName(collateral_deposit_bank_name);
+
+        ApplicationCollateralDepositApprovalData appCollateralDeposit = new ApplicationCollateralDepositApprovalData();
+        appCollateralDeposit.setApplicationid(id.toString());
+        appCollateralDeposit.setBankid(collateral_deposit_bankid);
+        appCollateralDeposit.setAmount(collateral_deposit_amount);
+        appCollateralDeposit.setCurrency(collateral_deposit_currency);
+        appCollateralDeposit.setAccountnumber(collateral_deposit_accountnumber);
+        appCollateralDeposit.setDuedate(collateral_deposit_duedate);
+        appCollateralDeposit.setBank(bankCollDeposit);
         //
 
 
@@ -647,6 +708,8 @@ public class GetApprovalApplication implements RowMapper<ApplicationApprovalData
         data.setApploanentity(appLoan);
         data.setApppersonelentity(appPersonel);
         data.setAppscore(appScore);
+        data.setAppcollateralvehicleentity(appCollateralVehicle);
+        data.setAppcollateraldepositentity(appCollateralDeposit);
         return data;
     }
 }

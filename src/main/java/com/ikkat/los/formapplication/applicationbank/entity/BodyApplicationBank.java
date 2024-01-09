@@ -4,7 +4,7 @@ public class BodyApplicationBank {
     private String bankid;
     private String accounttype;
     private String accountnumber;
-    private boolean iscreditcard;
+    private String iscreditcard;
     private String bankcc;
     private String numbercc;
     private String typecredittcard;
@@ -33,11 +33,11 @@ public class BodyApplicationBank {
         this.accountnumber = accountnumber;
     }
 
-    public boolean isIscreditcard() {
+    public String isIscreditcard() {
         return iscreditcard;
     }
 
-    public void setIscreditcard(boolean iscreditcard) {
+    public void setIscreditcard(String iscreditcard) {
         this.iscreditcard = iscreditcard;
     }
 

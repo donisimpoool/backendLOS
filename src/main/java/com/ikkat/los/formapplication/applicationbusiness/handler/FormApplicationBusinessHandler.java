@@ -59,6 +59,7 @@ public class FormApplicationBusinessHandler implements FormApplicationBusinessSe
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
+            System.out.println("body.getCompanyname() "+body.getCompanyname());
             FormApplicationBusiness table = new FormApplicationBusiness();
             table.setIdcompany(idcompany);
             table.setIdapplication(idapplication);
@@ -71,9 +72,11 @@ public class FormApplicationBusinessHandler implements FormApplicationBusinessSe
             table.setBusinessline(body.getBusinessline());
             table.setIdregencies(body.getIdregencies());
             table.setIddistrict(body.getIddistrict());
+            table.setProvinceid(body.getProvinceid());
             idsave = repository.saveAndFlush(table).getId();
         }catch (Exception e) {
             // TODO: handle exception
+            System.out.println("Exception "+e.getMessage());
             ValidationDataMessage msg = new ValidationDataMessage(ConstansCodeMessage.CODE_MESSAGE_INTERNAL_SERVER_ERROR,"Kesalahan Pada Server");
             validations.add(msg);
         }

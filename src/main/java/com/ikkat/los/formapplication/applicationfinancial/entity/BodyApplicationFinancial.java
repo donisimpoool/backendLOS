@@ -6,7 +6,7 @@ public class BodyApplicationFinancial {
     private Double sideincome;
     private Double expense;
     private Double additionalexpense;
-    private Boolean vehicleowner;
+    private String vehicleowner;
     private String typevehicle;
 
     public String getTypeincome() {
@@ -49,11 +49,11 @@ public class BodyApplicationFinancial {
         this.additionalexpense = additionalexpense;
     }
 
-    public Boolean getVehicleowner() {
+    public String getVehicleowner() {
         return vehicleowner;
     }
 
-    public void setVehicleowner(Boolean vehicleowner) {
+    public void setVehicleowner(String vehicleowner) {
         this.vehicleowner = vehicleowner;
     }
 

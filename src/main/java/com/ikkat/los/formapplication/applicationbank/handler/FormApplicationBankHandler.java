@@ -65,7 +65,7 @@ public class FormApplicationBankHandler implements FormApplicationBankService {
             table.setBankid(body.getBankid());
             table.setAccounttype(body.getAccounttype());
             table.setAccountnumber(body.getAccountnumber());
-            table.setIscreditcard(body.isIscreditcard());
+            table.setIscreditcard(body.isIscreditcard().equals("Y")?true:false);
             table.setBankcc(body.getBankcc());
             table.setNumbercc(body.getNumbercc());
             table.setTypecredittcard(body.getTypecredittcard());
@@ -92,7 +92,7 @@ public class FormApplicationBankHandler implements FormApplicationBankService {
             table.setBankid(body.getBankid());
             table.setAccounttype(body.getAccounttype());
             table.setAccountnumber(body.getAccountnumber());
-            table.setIscreditcard(body.isIscreditcard());
+            table.setIscreditcard(body.isIscreditcard().equals("Y")?true:false);
             table.setBankcc(body.getBankcc());
             table.setNumbercc(body.getNumbercc());
             table.setTypecredittcard(body.getTypecredittcard());

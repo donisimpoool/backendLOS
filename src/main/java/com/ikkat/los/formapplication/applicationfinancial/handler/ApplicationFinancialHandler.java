@@ -65,7 +65,7 @@ public class ApplicationFinancialHandler implements ApplicationFinancialService 
             table.setSideincome(body.getSideincome());
             table.setExpense(body.getExpense());
             table.setAdditionalexpense(body.getAdditionalexpense());
-            table.setVehicleowner(body.getVehicleowner());
+            table.setVehicleowner(body.getVehicleowner().equals("Y")?true:false);
             table.setTypevehicle(body.getTypevehicle());
 
             idsave = repository.saveAndFlush(table).getId();
@@ -92,7 +92,7 @@ public class ApplicationFinancialHandler implements ApplicationFinancialService 
             table.setSideincome(body.getSideincome());
             table.setExpense(body.getExpense());
             table.setAdditionalexpense(body.getAdditionalexpense());
-            table.setVehicleowner(body.getVehicleowner());
+            table.setVehicleowner(body.getVehicleowner().equals("Y")?true:false);
             table.setTypevehicle(body.getTypevehicle());
 
             idsave = repository.saveAndFlush(table).getId();

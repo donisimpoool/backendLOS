@@ -3,6 +3,9 @@ package com.ikkat.los.formapplication.applicationpersonal.entity;
 import java.sql.Date;
 
 public class BodyApplicationPersonal {
+    private String customerid;
+    private String cfiid;
+
     private String names;
         private String mobilephone;
     private String landlinephone;
@@ -17,6 +20,22 @@ public class BodyApplicationPersonal {
     private int numberofdependant;
     private String religionid;
     private String taxnumber;
+
+    public String getCustomerid() {
+        return customerid;
+    }
+
+    public void setCustomerid(String customerid) {
+        this.customerid = customerid;
+    }
+
+    public String getCfiid() {
+        return cfiid;
+    }
+
+    public void setCfiid(String cfiid) {
+        this.cfiid = cfiid;
+    }
 
     public Long getDateofbirthtime() {
         return dateofbirthtime;
