@@ -7,7 +7,10 @@ import com.ikkat.los.formapplication.application.entity.BodyUpdateStatus;
 import com.ikkat.los.formapplication.application.service.FormApplicationService;
 import com.ikkat.los.loanproduct.entity.BodyLoanDashboard;
 import com.ikkat.los.loanproduct.service.LoanProdutsService;
+import com.ikkat.los.roulesscores.entity.BodyUpdateScore;
+import com.ikkat.los.roulesscores.service.RoulesScoresService;
 import com.ikkat.los.security.entity.AuthorizationData;
+import com.ikkat.los.service.LineBusinessService;
 import com.ikkat.los.shared.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,10 @@ public class ProcessHandler implements ProcessService{
     private FormApplicationService applicationService;
     @Autowired
     private DashboardService dashboardService;
+    @Autowired
+    private RoulesScoresService roulesScoresService;
+    @Autowired
+    LineBusinessService linebusinessservice;
     @Override
     public ProcessReturn ProcessingFunction(String codepermission, Object data, String authorization) {
         ProcessReturn val = new ProcessReturn();
@@ -55,6 +62,21 @@ public class ProcessHandler implements ProcessService{
                     val.setHttpcode(HttpStatus.BAD_REQUEST.value());
                     val.setValidations(valReturn.getValidations());
                     val.setData(null);
+                }
+            }else if(codepermission.equals(ConstansPermission.EDIT_ROULES_SCORE)){
+                HashMap<String, Object> param = (HashMap<String, Object>) data;
+                String type = (String) param.get("type");
+                if(type.equals("UPDATESCORE")) {
+                    BodyUpdateScore body = (BodyUpdateScore) param.get("body");
+                    ReturnData valReturn = roulesScoresService.updateScore(auth.getIdcompany(), auth.getId(), body);
+                    if (valReturn.isSuccess()) {
+                        val.setData(valReturn.getId());
+                    } else {
+                        val.setSuccess(valReturn.isSuccess());
+                        val.setHttpcode(HttpStatus.BAD_REQUEST.value());
+                        val.setValidations(valReturn.getValidations());
+                        val.setData(null);
+                    }
                 }
             }
         }
@@ -91,6 +113,16 @@ public class ProcessHandler implements ProcessService{
                 }else if(type.equals("GET_GRAPH")) {
                     val.setData(dashboardService.getDataGraph(auth.getIdcompany()));
                 }
+            }else if(codepermission.equals(ConstansPermission.READ_ROULES)) {
+                HashMap<String, Object> param = (HashMap<String, Object>) data;
+                String type = (String) param.get("type");
+                if(type.equals("ALL")) {
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("listrules", roulesScoresService.getListAllByIsRoulesTemplate(auth.getIdcompany(), false));
+                    map.put("listlb", linebusinessservice.findAll());
+                    val.setData(map);
+                }
+
             }
         }
         return val;
