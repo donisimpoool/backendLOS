@@ -258,11 +258,10 @@ public class FormApplicationHandler implements FormApplicationService {
                 listroules.clear();
                 listroules = rulesService.getListAllIsRoulesTemplate(idcompany,true);
             }
-            System.out.println("BodyAllApplication = "+body.toString());
-            System.out.println("listroules = "+listroules.toString()+" | "+listroules.size());
+
             HashMap<String, Object> mapScore = scoringService.calculateScore(idcompany,listroules,body);
             int score = (int) mapScore.get("hasilscore");
-            System.out.println("score = "+score);
+
             RiskLevelData risk = (RiskLevelData) mapScore.get("risk");
             String status = (String) mapScore.get("status");
 //            String ruleEnginecomments = (String) mapscore.get("ruleEnginecomments");
@@ -331,5 +330,26 @@ public class FormApplicationHandler implements FormApplicationService {
             return list.get(0);
         }
         return 0L;
+    }
+
+    @Override
+    public ReturnData updateStatus(Long idcompany, Long iduser, BodyUpdateStatus body) {
+        List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
+        long idsave = 0;
+        try{
+            Application table = repository.getById(body.getAppid());
+            table.setStatus(body.getStatus());
+
+            idsave = repository.saveAndFlush(table).getId();
+        }catch (Exception e) {
+            // TODO: handle exception
+            ValidationDataMessage msg = new ValidationDataMessage(ConstansCodeMessage.CODE_MESSAGE_INTERNAL_SERVER_ERROR,"Kesalahan Pada Server");
+            validations.add(msg);
+        }
+        ReturnData data = new ReturnData();
+        data.setId(idsave);
+        data.setSuccess(validations.size() > 0?false:true);
+        data.setValidations(validations);
+        return data;
     }
 }

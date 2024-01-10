@@ -1,6 +1,7 @@
 package com.ikkat.los.formapplication.application.api;
 
 import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
+import com.ikkat.los.formapplication.application.entity.BodyUpdateStatus;
 import com.ikkat.los.security.service.SecurityService;
 import com.ikkat.los.shared.ConstansKey;
 import com.ikkat.los.shared.ConstansPermission;
@@ -39,6 +40,12 @@ public class ApplicationAPI {
         HashMap<String, Object> param = new HashMap<String, Object>();
         param.put("type", "APPROVAL_ALL");
         Response response = securityService.response(ConstansPermission.READ_APPLICATION,param,authorization);
+        return ResponseEntity.status(response.getHttpcode()).contentType(MediaType.APPLICATION_JSON).body(response);
+    }
+
+    @PostMapping("/updatestatus")
+    ResponseEntity<Response> editStatus(@RequestBody @Validated BodyUpdateStatus body, @RequestHeader(ConstansKey.AUTH) String authorization) {
+        Response response = securityService.response(ConstansPermission.EDIT_APPLICATION_STATUS,body,authorization);
         return ResponseEntity.status(response.getHttpcode()).contentType(MediaType.APPLICATION_JSON).body(response);
     }
 }

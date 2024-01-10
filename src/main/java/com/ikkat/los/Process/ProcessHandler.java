@@ -3,6 +3,7 @@ package com.ikkat.los.Process;
 import com.google.gson.Gson;
 import com.ikkat.los.dashboard.service.DashboardService;
 import com.ikkat.los.formapplication.application.entity.BodyAllApplication;
+import com.ikkat.los.formapplication.application.entity.BodyUpdateStatus;
 import com.ikkat.los.formapplication.application.service.FormApplicationService;
 import com.ikkat.los.loanproduct.entity.BodyLoanDashboard;
 import com.ikkat.los.loanproduct.service.LoanProdutsService;
@@ -36,6 +37,17 @@ public class ProcessHandler implements ProcessService{
             if(codepermission.equals(ConstansPermission.CREATE_APPLICATION)) {
                 BodyAllApplication body = (BodyAllApplication) data;
                 ReturnData valReturn = applicationService.saveAllApplication(auth.getIdcompany(),auth.getId(), body);
+                if(valReturn.isSuccess()) {
+                    val.setData(valReturn.getId());
+                }else {
+                    val.setSuccess(valReturn.isSuccess());
+                    val.setHttpcode(HttpStatus.BAD_REQUEST.value());
+                    val.setValidations(valReturn.getValidations());
+                    val.setData(null);
+                }
+            }else if(codepermission.equals(ConstansPermission.EDIT_APPLICATION_STATUS)){
+                BodyUpdateStatus body = (BodyUpdateStatus) data;
+                ReturnData valReturn = applicationService.updateStatus(auth.getIdcompany(),auth.getId(), body);
                 if(valReturn.isSuccess()) {
                     val.setData(valReturn.getId());
                 }else {

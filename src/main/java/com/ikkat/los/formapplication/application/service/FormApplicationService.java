@@ -22,4 +22,6 @@ public interface FormApplicationService {
 
     ReturnData saveAllApplication(Long idcompany, Long iduser, BodyAllApplication body);
     Long getCountApplicant(Long idcompany,String fromDate,String thruDate,String status);
+
+    ReturnData updateStatus(Long idcompany,Long iduser,BodyUpdateStatus body);
 }
