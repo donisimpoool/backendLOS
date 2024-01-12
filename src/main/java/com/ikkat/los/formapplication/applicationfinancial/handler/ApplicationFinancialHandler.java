@@ -86,7 +86,7 @@ public class ApplicationFinancialHandler implements ApplicationFinancialService 
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationFinancial table = repository.getById(id);
+            ApplicationFinancial table = repository.findById(id).get();
             table.setTypeincome(body.getTypeincome());
             table.setMainincome(body.getMainincome());
             table.setSideincome(body.getSideincome());

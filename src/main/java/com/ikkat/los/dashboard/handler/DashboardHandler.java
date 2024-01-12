@@ -38,43 +38,56 @@ public class DashboardHandler implements DashboardService {
 
     @Override
     public GraphData getDataGraph(Long idcompany) {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        List<GraphBarByMonths> list = new ArrayList<GraphBarByMonths>();
-        for(int month=1 ; month <= 12 ; month++) {
-            String strmonth = String.valueOf(month);
-            if(month < 10) {
-                strmonth = "0"+String.valueOf(month);
+        try {
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            List<GraphBarByMonths> list = new ArrayList<GraphBarByMonths>();
+            for (int month = 1; month <= 12; month++) {
+                String strmonth = String.valueOf(month);
+                if (month < 10) {
+                    strmonth = "0" + String.valueOf(month);
+                }
+                String strfrom = year + "-" + strmonth + "-01";
+                String strthru = year + "-" + strmonth + "-" + Utils.getCurrentMaxDate(year, month - 1, 1);
+
+                Long appAll = applicationService.getCountApplicant(idcompany, strfrom, strthru, "");
+                Long appApprove = applicationService.getCountApplicant(idcompany, strfrom, strthru, "A");
+                Long appUnderwriting = applicationService.getCountApplicant(idcompany, strfrom, strthru, "U");
+
+                GraphBarByMonths graphs = new GraphBarByMonths();
+                graphs.setMonth(Utils.namabulan(month));
+                graphs.setJlmapllicant(appAll);
+                graphs.setJlmapllicantapprove(appApprove);
+                graphs.setJlmapllicantpending(appUnderwriting);
+                list.add(graphs);
             }
-            String strfrom = year+"-"+strmonth+"-01";
-            String strthru = year+"-"+strmonth+"-"+Utils.getCurrentMaxDate(year,month - 1,1);
 
-            Long appAll = applicationService.getCountApplicant(idcompany,strfrom,strthru,"");
-            Long appApprove = applicationService.getCountApplicant(idcompany,strfrom,strthru,"A");
-            Long appUnderwriting = applicationService.getCountApplicant(idcompany,strfrom,strthru,"U");
 
-            GraphBarByMonths graphs = new GraphBarByMonths();
-            graphs.setMonth(Utils.namabulan(month));
-            graphs.setJlmapllicant(appAll);
-            graphs.setJlmapllicantapprove(appApprove);
-            graphs.setJlmapllicantpending(appUnderwriting);
-            list.add(graphs);
+            String strfrom = year + "-01" + "-01";
+            String strthru = year + "-12" + "-31";
+            Long appAll = applicationService.getCountApplicant(idcompany, strfrom, strthru, "");
+            Long appApprove = applicationService.getCountApplicant(idcompany, strfrom, strthru, "A");
+            Long appUnderwriting = applicationService.getCountApplicant(idcompany, strfrom, strthru, "U");
+
+            DoghnutChartData data = new DoghnutChartData();
+            data.setJmlapplied(appAll);
+            data.setJmlapprove(appApprove);
+            data.setJmlpending(appUnderwriting);
+
+            GraphData grp = new GraphData();
+            grp.setDonuts(data);
+            grp.setGraph(list);
+            return grp;
+        }catch (Exception e) {
+            Class<?> enclosingClass = getClass().getEnclosingClass();
+            String className = "";
+            if (enclosingClass != null) {
+                className = enclosingClass.getName();
+            } else {
+                className = getClass().getName();
+            }
+            System.out.println("Error "+className+" : "+e.getMessage());
         }
 
-
-        String strfrom = year+"-01"+"-01";
-        String strthru = year+"-12"+"-31";
-        Long appAll = applicationService.getCountApplicant(idcompany,strfrom,strthru,"");
-        Long appApprove = applicationService.getCountApplicant(idcompany,strfrom,strthru,"A");
-        Long appUnderwriting = applicationService.getCountApplicant(idcompany,strfrom,strthru,"U");
-
-        DoghnutChartData data = new DoghnutChartData();
-        data.setJmlapplied(appAll);
-        data.setJmlapprove(appApprove);
-        data.setJmlpending(appUnderwriting);
-
-        GraphData grp = new GraphData();
-        grp.setDonuts(data);
-        grp.setGraph(list);
-        return grp;
+        return null;
     }
 }

@@ -96,7 +96,7 @@ public class ApplicationScoreHandler implements ApplicationScoreService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationScore table = repository.getById(id);
+            ApplicationScore table = repository.findById(id).get();
             table.setPropertypossession(body.getPropertypossession());
             table.setNumberofdependant(body.getNumberofdependant());
             table.setGender(body.getGender());

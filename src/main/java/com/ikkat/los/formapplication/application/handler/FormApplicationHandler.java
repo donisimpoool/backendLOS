@@ -171,7 +171,7 @@ public class FormApplicationHandler implements FormApplicationService {
         try{
             long dateLong = new Date().getTime();
             Timestamp ts = new Timestamp(dateLong);
-            Application table = repository.getById(id);
+            Application table = repository.findById(id).get();
             table.setStatus(body.getStatus());
             table.setScore(body.getScore());
             table.setIsdraft(body.isIsdraft());
@@ -337,7 +337,7 @@ public class FormApplicationHandler implements FormApplicationService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            Application table = repository.getById(body.getAppid());
+            Application table = repository.findById(body.getAppid()).get();
             table.setStatus(body.getStatus());
 
             idsave = repository.saveAndFlush(table).getId();

@@ -87,7 +87,7 @@ public class ApplicationFamilyHandler implements ApplicationFamilyService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationFamily table = repository.getById(id);
+            ApplicationFamily table = repository.findById(id).get();
             table.setContactemergency(body.getContactemergency());
             table.setAddressemergencycontact(body.getAddressemergencycontact());
             table.setMobileemergency(body.getMobileemergency());

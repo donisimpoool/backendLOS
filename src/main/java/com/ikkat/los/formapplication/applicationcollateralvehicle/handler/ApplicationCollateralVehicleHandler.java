@@ -86,7 +86,7 @@ public class ApplicationCollateralVehicleHandler implements ApplicationCollatera
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationCollateralVehicle table = repository.getById(id);
+            ApplicationCollateralVehicle table = repository.findById(id).get();
             table.setTypevehicle(body.getTypevehicle());
             table.setBrand(body.getBrand());
             table.setTypetransmision(body.getTypetransmision());

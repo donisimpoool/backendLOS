@@ -81,7 +81,7 @@ public class ApplicationDocumentHandler implements ApplicationDocumentService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationDocument table = repository.getById(id);
+            ApplicationDocument table = repository.findById(id).get();
             table.setDescription(body.getDescription());
             table.setFiles(body.getFiles());
 

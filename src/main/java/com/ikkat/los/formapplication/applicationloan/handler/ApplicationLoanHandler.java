@@ -83,7 +83,7 @@ public class ApplicationLoanHandler implements ApplicationLoanService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationLoan table = repository.getById(id);
+            ApplicationLoan table = repository.findById(id).get();
             table.setLoanproductid(body.getLoanproductid());
             table.setPurposeofloan(body.getPurposeofloan());
             table.setTenor(body.getTenor());

@@ -88,7 +88,7 @@ public class FormApplicationBankHandler implements FormApplicationBankService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationBank table = repository.getById(id);
+            ApplicationBank table = repository.findById(id).get();
             table.setBankid(body.getBankid());
             table.setAccounttype(body.getAccounttype());
             table.setAccountnumber(body.getAccountnumber());

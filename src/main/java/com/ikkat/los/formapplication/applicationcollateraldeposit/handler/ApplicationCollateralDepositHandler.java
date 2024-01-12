@@ -84,7 +84,7 @@ public class ApplicationCollateralDepositHandler implements ApplicationCollatera
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationCollateralDeposit table = repository.getById(id);
+            ApplicationCollateralDeposit table = repository.findById(id).get();
             table.setBankid(body.getBankid());
             table.setAmount(body.getAmount());
             table.setCurrency(body.getCurrency());

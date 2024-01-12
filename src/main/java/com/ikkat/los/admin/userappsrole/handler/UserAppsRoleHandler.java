@@ -34,7 +34,7 @@ public class UserAppsRoleHandler implements UserAppsRoleService{
 	public Object saveUserAppsRoleList(List<UserAppsRole> listUserAppsRole) {
 		// TODO Auto-generated method stub
 		if(listUserAppsRole.size() > 0) {
-			repository.saveAllAndFlush(listUserAppsRole);
+//			repository.saveAllAndFlush(listUserAppsRole);
 		}
 		return null;
 	}
@@ -52,7 +52,7 @@ public class UserAppsRoleHandler implements UserAppsRoleService{
 	public Object deleteAllUserAppsRolePKPK(List<UserAppsRolePK> listPK) {
 		// TODO Auto-generated method stub
 		if(listPK.size() > 0) {
-			repository.deleteAllById(listPK);
+//			repository.deleteAllById(listPK);
 		}
 		return null;
 	}

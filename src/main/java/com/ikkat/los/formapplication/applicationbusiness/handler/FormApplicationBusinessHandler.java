@@ -92,7 +92,7 @@ public class FormApplicationBusinessHandler implements FormApplicationBusinessSe
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            FormApplicationBusiness table = repository.getById(id);
+            FormApplicationBusiness table = repository.findById(id).get();
             table.setCompanyname(body.getCompanyname());
             table.setCompanyaddress(body.getCompanyaddress());
             table.setDivision(body.getDivision());

@@ -98,7 +98,7 @@ public class ApplicationPersonalHandler implements ApplicationPersonalService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationPersonal table = repository.getById(id);
+            ApplicationPersonal table = repository.findById(id).get();
             table.setNames(body.getNames());
             table.setMobilephone(body.getMobilephone());
             table.setLandlinephone(body.getLandlinephone());

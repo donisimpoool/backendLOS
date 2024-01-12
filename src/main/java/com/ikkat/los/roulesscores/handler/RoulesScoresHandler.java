@@ -73,7 +73,7 @@ public class RoulesScoresHandler implements RoulesScoresService {
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            RoulesScores table = repository.getById(body.getId());
+            RoulesScores table = repository.findById(body.getId()).get();
             table.setScore(body.getScore());
 
             idsave = repository.saveAndFlush(table).getId();

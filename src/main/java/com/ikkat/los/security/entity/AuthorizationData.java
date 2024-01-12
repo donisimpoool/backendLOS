@@ -7,7 +7,7 @@ public class AuthorizationData {
 	private String username;
 	private String password;
 	private String passwordtoken;
-	private Timestamp datelogin;
+//	private Timestamp datelogin;
 	private long idcompany;
 	private long idbranch;
 	private String typelogin;
@@ -29,12 +29,12 @@ public class AuthorizationData {
 	public void setIdbranch(long idbranch) {
 		this.idbranch = idbranch;
 	}
-	public Timestamp getDatelogin() {
-		return datelogin;
-	}
-	public void setDatelogin(Timestamp datelogin) {
-		this.datelogin = datelogin;
-	}
+//	public Timestamp getDatelogin() {
+//		return datelogin;
+//	}
+//	public void setDatelogin(Timestamp datelogin) {
+//		this.datelogin = datelogin;
+//	}
 	public long getId() {
 		return id;
 	}

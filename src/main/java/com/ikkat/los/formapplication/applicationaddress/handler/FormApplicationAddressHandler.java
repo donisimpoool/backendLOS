@@ -102,7 +102,7 @@ public class FormApplicationAddressHandler implements FormApplicationAddressServ
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try{
-            ApplicationAddress table = repository.getById(id);
+            ApplicationAddress table = repository.findById(id).get();
             table.setMainaddress(body.getMainaddress());
             table.setProvinceid(body.getProvinceid());
             table.setPostalcode(body.getPostalcode());

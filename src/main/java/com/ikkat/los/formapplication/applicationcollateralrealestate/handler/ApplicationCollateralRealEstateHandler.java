@@ -88,7 +88,7 @@ public class ApplicationCollateralRealEstateHandler implements ApplicationCollat
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try {
-            ApplicationCollateralRealEstate table = repository.getById(id);
+            ApplicationCollateralRealEstate table = repository.findById(id).get();
             table.setTyperealestate(body.getTyperealestate());
             table.setConditions(body.getConditions());
             table.setYears(body.getYears());

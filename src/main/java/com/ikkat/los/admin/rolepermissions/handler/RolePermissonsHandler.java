@@ -30,7 +30,7 @@ public class RolePermissonsHandler implements RolePermissionService {
 	@Override
 	public Object saveRolePermissionsList(List<RolePermissions> listrolePermissions) {
 		// TODO Auto-generated method stub
-		return repository.saveAllAndFlush(listrolePermissions);
+		return repository.saveAll(listrolePermissions);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class RolePermissonsHandler implements RolePermissionService {
 	public Object deleteAllrolePermissionsByListPK(List<RolePermissionsPK> listPK) {
 		// TODO Auto-generated method stub
 		if(listPK.size() > 0) {
-			repository.deleteAllById(listPK);
+//			repository.deleteAllById(listPK);
 		}
 		return null;
 	}

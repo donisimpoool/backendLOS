@@ -80,7 +80,7 @@ public class ApplicationCollateralHandler implements ApplicationCollateralServic
         List<ValidationDataMessage> validations = new ArrayList<ValidationDataMessage>();
         long idsave = 0;
         try {
-            ApplicationCollateral table = repository.getById(id);
+            ApplicationCollateral table = repository.findById(id).get();
             table.setCollateral(body.getCollateral());
             idsave = repository.saveAndFlush(table).getId();
         }catch (Exception e) {

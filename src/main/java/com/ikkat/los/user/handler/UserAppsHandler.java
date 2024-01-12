@@ -78,7 +78,7 @@ public class UserAppsHandler implements UserAppsService {
 					dataauth.setId(user.getId());
 					dataauth.setUsername(username);
 					dataauth.setPassword(password);
-					dataauth.setDatelogin(ts);
+//					dataauth.setDatelogin(ts);
 					dataauth.setPasswordtoken(encryptedPassToken);
 					dataauth.setIdcompany(user.getCompanyid());
 //					dataauth.setIdbranch(user.getBranchid());
